@@ -11844,5 +11844,16 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+div {
+  border: 1px solid black;
+}
+
+#header {
+  background-color: red;
+}
+
+#brani {
+  height: 400px;
+}
 
 /*# sourceMappingURL=style.css.map */
