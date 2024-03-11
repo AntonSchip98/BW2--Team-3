@@ -1,9 +1,10 @@
+$green:   #1ed760;
+
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 
 #full-window {
   height: 100vh;
-  background-color: #f0f0f0;
   overflow: hidden;
 
   #three-column {
@@ -17,10 +18,23 @@
     #mid-col {
       height: 100vh;
       overflow-y: auto;
+
+      background: rgb(32,32,32);
+background: linear-gradient(0deg, rgba(32,32,32,1) 35%, rgba(85,85,85,1) 87%);
+
+      #card{
+        background: rgb(85,85,85);
+        background: linear-gradient(225deg, rgba(85,85,85,1) 0%, rgba(32,32,32,1) 62%);
+      }
     }
     #right-col {
       height: 100vh;
       overflow-y: auto;
+
     }
   }
+}
+
+#player{
+  background-color: #181818;
 }
