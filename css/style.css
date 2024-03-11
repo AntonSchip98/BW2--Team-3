@@ -11849,7 +11849,7 @@ textarea.form-control-lg {
   overflow: hidden;
 }
 #full-window #three-column {
-  height: 85vh;
+  height: 90vh;
   overflow-y: hidden;
 }
 #full-window #three-column #left-col {
@@ -11857,21 +11857,35 @@ textarea.form-control-lg {
   overflow-y: auto;
 }
 #full-window #three-column #mid-col {
-  height: 100vh;
+  height: 90vh;
   overflow-y: auto;
-  background: rgb(0, 0, 0);
-  background: linear-gradient(14deg, rgb(0, 0, 0) 0%, rgb(115, 115, 115) 99%);
+  background: rgb(24, 24, 24);
+  background: linear-gradient(5deg, rgb(24, 24, 24) 49%, rgb(88, 88, 88) 100%);
+}
+#full-window #three-column #mid-col .btn.rounded-circle {
+  background-color: #181818;
 }
 #full-window #three-column #mid-col #card {
   background: rgb(0, 0, 0);
-  background: linear-gradient(14deg, rgb(0, 0, 0) 0%, rgb(115, 115, 115) 99%);
+  background: linear-gradient(5deg, rgb(0, 0, 0) 39%, rgb(88, 88, 88) 100%);
+}
+#full-window #three-column #mid-col .img-size {
+  width: 100%;
+}
+#full-window #three-column #mid-col .custom-card {
+  background-color: black;
+  color: #ffffff;
 }
 #full-window #three-column #right-col {
-  height: 85vh;
+  height: 90vh;
   overflow-y: auto;
 }
 #full-window #player {
   background-color: #181818;
+}
+
+.text-white.mb-3 {
+  background-color: #353535;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -7,7 +7,7 @@ $green: #1ed760;
   overflow: hidden;
 
   #three-column {
-    height: 85vh;
+    height: 90vh;
     overflow-y: hidden;
 
     #left-col {
@@ -15,26 +15,35 @@ $green: #1ed760;
       overflow-y: auto;
     }
     #mid-col {
-      height: 100vh;
+      height: 90vh;
       overflow-y: auto;
-      background: rgb(0, 0, 0);
+      background: rgb(24, 24, 24);
       background: linear-gradient(
-        14deg,
-        rgba(0, 0, 0, 1) 0%,
-        rgba(115, 115, 115, 1) 99%
+        5deg,
+        rgba(24, 24, 24, 1) 49%,
+        rgba(88, 88, 88, 1) 100%
       );
-
+      .btn.rounded-circle {
+        background-color: #181818;
+      }
       #card {
         background: rgb(0, 0, 0);
         background: linear-gradient(
-          14deg,
-          rgba(0, 0, 0, 1) 0%,
-          rgba(115, 115, 115, 1) 99%
+          5deg,
+          rgba(0, 0, 0, 1) 39%,
+          rgba(88, 88, 88, 1) 100%
         );
+      }
+      .img-size {
+        width: 100%;
+      }
+      .custom-card {
+        background-color: black;
+        color: #ffffff;
       }
     }
     #right-col {
-      height: 85vh;
+      height: 90vh;
       overflow-y: auto;
     }
   }
@@ -42,4 +51,8 @@ $green: #1ed760;
   #player {
     background-color: #181818;
   }
+}
+
+.text-white.mb-3 {
+  background-color: #353535;
 }
