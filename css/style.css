@@ -11844,6 +11844,10 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+body {
+  overflow: hidden;
+}
+
 div {
   border: 1px solid black;
 }
@@ -11853,7 +11857,7 @@ div {
 }
 
 #brani {
-  height: 400px;
+  height: 60vh;
 }
 
 /*# sourceMappingURL=style.css.map */

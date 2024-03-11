@@ -2,9 +2,11 @@
 
 body{
 
-    // overflow: hidden;
+    overflow: hidden;
     
 }
+
+
 
 div{
 
@@ -19,7 +21,10 @@ div{
 
 #brani{
 
-    height: 400px;
-    
+    height: 60vh;
+    // @media screen and (max-widht:714px) {
+    //     height: 50vh;
+    // }
     
 }
+
