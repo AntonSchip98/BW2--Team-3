@@ -1,25 +1,48 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
-body{
+// body {
+//   overflow: hidden;
+// }
 
-    // overflow: hidden;
-    
+div {
+  border: 1px solid black;
+  // height: 230px;
 }
 
-div{
+// #container {
+//   height: 100vh;
+// }
+// #header {
+//   background-color: red;
+// }
 
-    border: 1px solid black ;
-    // height: 230px;
-}
+// #brani {
+//   height: 60vh;
+// }
+// #play-list {
+//   height: 12.8vw;
+// }
+#full-window {
+  height: 100vh;
+  background-color: #f0f0f0;
+  border: 3px solid black;
+  overflow: hidden;
 
-#header{
+  #three-column {
+    height: 85vh;
+    overflow-y: hidden;
 
-    background-color: red;
-}
-
-#brani{
-
-    height: 400px;
-    
-    
+    #left-col {
+      height: 60vh;
+      overflow-y: auto;
+    }
+    #mid-col {
+      height: 100vh;
+      overflow-y: auto;
+    }
+    #right-col {
+      height: 100vh;
+      overflow-y: auto;
+    }
+  }
 }

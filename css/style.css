@@ -11848,12 +11848,27 @@ div {
   border: 1px solid black;
 }
 
-#header {
-  background-color: red;
+#full-window {
+  height: 100vh;
+  background-color: #f0f0f0;
+  border: 3px solid black;
+  overflow: hidden;
 }
-
-#brani {
-  height: 400px;
+#full-window #three-column {
+  height: 85vh;
+  overflow-y: hidden;
+}
+#full-window #three-column #left-col {
+  height: 60vh;
+  overflow-y: auto;
+}
+#full-window #three-column #mid-col {
+  height: 100vh;
+  overflow-y: auto;
+}
+#full-window #three-column #right-col {
+  height: 100vh;
+  overflow-y: auto;
 }
 
 /*# sourceMappingURL=style.css.map */
