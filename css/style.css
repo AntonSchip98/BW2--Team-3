@@ -11844,14 +11844,9 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-div {
-  border: 1px solid black;
-}
-
 #full-window {
   height: 100vh;
   background-color: #f0f0f0;
-  border: 3px solid black;
   overflow: hidden;
 }
 #full-window #three-column {
