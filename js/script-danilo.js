@@ -32,7 +32,6 @@ fetch(
 
       let target = home.querySelector("#targetBuonasera")
       target.append(colBrano)
-      home.append(target)
     }
 
     // CICLO FOR PER LE 5 CARD NELLA SEZIONE ALTRO DI CIO CHE TI PIACE
@@ -59,7 +58,6 @@ fetch(
       console.log(brano.artist.name);
       let target = home.querySelector("#targetCioCheTiPiace")
       target.append(colBrano)
-      home.append(target)
     }
 
     // CICLO FOREACH PER LO SHOWMORE DI TUTTE LE CARD NELLA SEZIONE ALTRO DI CIO CHE TI PIACE
