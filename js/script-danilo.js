@@ -1,5 +1,9 @@
+// AD OGNI RELOAD LA FETCH VIENE ESEGUITA CON UNA PAROLA CASUALE SCELTA DA QUESTO ARRAY
 let singer = ["geolier", "annalisa", "angelina", "salmo", "gue"];
 let singerCasuale = singer[Math.floor(Math.random() * singer.length)];
+let ShowMoreP = document.querySelector("#ShowMoreP")
+let targetHome = document.querySelector("#target-mid-col")
+
 
 fetch(
   `https://striveschool-api.herokuapp.com/api/deezer/search?q=${singerCasuale}`
@@ -7,20 +11,115 @@ fetch(
   .then((res) => res.json())
   .then((brani) => {
     let primoBrano = brani.data[0];
+    let home = generaClone("#template-mid-cols")
+    targetHome.append(home)
+    
+    // CICLO FOR PER LE 6 CARD NELLA SEZIONE BUONASERA
 
-    brani.data.forEach(brano => {
+    for (let i = 1; i < 7 && i < brani.data.length; i++) {
+      const brano = brani.data[i];
 
-      let colBrano = generaClone()
+      let colBrano = generaClone("#template-buonasera")
 
-      let { imgCard6, titleCard6 } = selezioneElementiClone(colBrano)
+      let { imgCard, titleCard } = selezioneElementiClone(colBrano)
 
-      modificaElementiClone(imgCard6, titleCard6)
+      if (brano.title == brano.album.title) {
+        imgCard.src = brano.artist.picture_medium;
+      } else {
+        imgCard.src = brano.album.cover_medium;
+      }
+      titleCard.innerHTML = brano.title
 
       let target = document.querySelector("#targetBuonasera")
       target.append(colBrano)
-    });
+    }
 
+    // CICLO FOR PER LE 5 CARD NELLA SEZIONE ALTRO DI CIO CHE TI PIACE
 
+    for (let i = 1; i < 6 && i < brani.data.length; i++) {
+      const brano = brani.data[i];
+
+      let colBrano = generaClone("#template-CioCheTiPiace")
+
+      let { imgCard, titleCard } = selezioneElementiClone(colBrano)
+
+      let artistCard = colBrano.querySelector("#artistCard")
+
+      if (brano.title == brano.album.title) {
+        imgCard.src = brano.artist.picture_medium;
+      } else {
+        imgCard.src = brano.album.cover_medium;
+      }
+
+      titleCard.innerHTML = brano.title
+
+      artistCard.innerHTML = artisti(brano.title, brano.artist.name)
+
+      console.log(brano.artist.name);
+      let target = document.querySelector("#targetCioCheTiPiace")
+      target.append(colBrano)
+    }
+
+    // CICLO FOREACH PER LO SHOWMORE DI TUTTE LE CARD NELLA SEZIONE ALTRO DI CIO CHE TI PIACE
+    let isClicked = false
+    ShowMoreP.addEventListener("click", showMore)
+    function showMore() {
+
+      if (!isClicked) {
+        targetCioCheTiPiace.innerHTML = ""
+        ShowMoreP.innerHTML = "Riduci"
+        brani.data.shift()
+        brani.data.forEach(brano => {
+          let colBrano = generaClone("#template-CioCheTiPiace")
+
+          let { imgCard, titleCard } = selezioneElementiClone(colBrano)
+
+          let artistCard = colBrano.querySelector("#artistCard")
+
+          if (brano.title == brano.album.title) {
+            imgCard.src = brano.artist.picture_medium;
+          } else {
+            imgCard.src = brano.album.cover_medium;
+          }
+
+          titleCard.innerHTML = brano.title
+
+          artistCard.innerHTML = artisti(brano.title, brano.artist.name)
+
+          console.log(brano.artist.name);
+          let target = document.querySelector("#targetCioCheTiPiace")
+          target.append(colBrano)
+        });
+      } else {
+        targetCioCheTiPiace.innerHTML = ""
+        ShowMoreP.innerHTML = "Visualizza Tutto"
+        for (let i = 0; i < 5 && i < brani.data.length; i++) {
+          const brano = brani.data[i];
+
+          let colBrano = generaClone("#template-CioCheTiPiace")
+
+          let { imgCard, titleCard } = selezioneElementiClone(colBrano)
+
+          let artistCard = colBrano.querySelector("#artistCard")
+
+          if (brano.title == brano.album.title) {
+            imgCard.src = brano.artist.picture_medium;
+          } else {
+            imgCard.src = brano.album.cover_medium;
+          }
+
+          titleCard.innerHTML = brano.title
+
+          artistCard.innerHTML = artisti(brano.title, brano.artist.name)
+
+          console.log(brano.artist.name);
+          let target = document.querySelector("#targetCioCheTiPiace")
+          target.append(colBrano)
+        }
+      }
+
+      isClicked = !isClicked;
+    }
 
     let type = document.querySelector("#type");
     type.innerHTML = controlloBranoAlbum(
@@ -70,33 +169,22 @@ fetch(
     let playerTitle = document.querySelector("#playerTitle");
     playerTitle.innerHTML = primoBrano.title;
 
-    function modificaElementiClone(imgCard6, titleCard6) {
-      if (primoBrano.title == primoBrano.album.title) {
-        imgCard6.src = primoBrano.artist.picture_small;
-      } else {
-        imgCard6.src = primoBrano.album.cover_small;
-      }
-      // BISONGA CICLARRE ALTRIMENTI NON HA SENSO
-      titleCard6.innerHTML = brani.data.title
-    }
-
-
   });
 
-function generaClone() {
-  let template = document.querySelector('#template-buonasera')
+function generaClone(selettore) {
+  let template = document.querySelector(selettore)
   let clone = template.content.cloneNode(true)
   return clone;
 }
 
 
 function selezioneElementiClone(elemento) {
-  let imgCard6 = elemento.querySelector("#imgCard6")
-  let titleCard6 = elemento.querySelector("#titleCard6")
+  let imgCard = elemento.querySelector("#imgCard")
+  let titleCard = elemento.querySelector("#titleCard")
 
   return {
-    imgCard6: imgCard6,
-    titleCard6: titleCard6,
+    imgCard: imgCard,
+    titleCard: titleCard,
   }
 }
 
@@ -120,13 +208,27 @@ function artisti(titolo, artista) {
   }
 }
 
-document.querySelector("#cerca").addEventListener("input", callSearch);
+let cerca = document.querySelector("#cerca");
+let inputCerca = document.querySelector("#inputCerca");
+
+cerca.addEventListener("click", function () {
+  inputCerca.classList.toggle("displayNone");
+});
+
+inputCerca.addEventListener("input", callSearch);
+
+
 
 async function callSearch() {
-  let ricerca = document.querySelector("#cerca");
-  console.log(ricerca);
-  let valoreRicerca = ricerca.value;
-  console.log(valoreRicerca);
+  let valoreRicerca = inputCerca.value;
+  let colScegliBrano = generaClone("#template-scegliBrani")
+  
+  if (valoreRicerca) {
+    targetHome.innerHTML = ""
+    targetHome.append(colScegliBrano)
+
+
+  // INIZIO FETCH 
   const response = await fetch(
     `https://striveschool-api.herokuapp.com/api/deezer/search?q=${valoreRicerca}`
   );
@@ -134,34 +236,44 @@ async function callSearch() {
   const brani = await response.json();
   console.log(brani);
 
-  brani.data.forEach((brano) => {
-    let titoloBrano = brano.title;
+  // brani.data.forEach((brano) => {
+  //   let titoloBrano = brano.title;
 
-    let nomeArtista = brano.artist.name;
+  //   let nomeArtista = brano.artist.name;
 
-    let titoloAlbum = brano.album.title;
+  //   let titoloAlbum = brano.album.title;
 
-    let copertinaArtista = brano.artist.picture_medium;
+  //   let copertinaArtista = brano.artist.picture_medium;
 
-    let cover = document.querySelector("#cover");
-    cover.src = brano.album.cover;
+  //   let cover = document.querySelector("#cover");
+  //   cover.src = brano.album.cover;
 
-    // SELEZIONIAMO GLI A NELA RICERCA E CMABAIMO L HREF PER REINDIRIZZARE ALLE PAGINE HTML CORRISPONDENTI
+  //   // SELEZIONIAMO GLI A NELA RICERCA E CMABAIMO L HREF PER REINDIRIZZARE ALLE PAGINE HTML CORRISPONDENTI
 
-    // let branoLink = document.querySelector("a")
+  //   // let branoLink = document.querySelector("a")
 
-    // branoLink.addEventListener("click", function(){
-    //     let id = brano.album.id
-    //     console.log(id);
-    // })
-    // let artistaLink = document...
-    // artistaLink.href = "./artist.html"
+  //   // branoLink.addEventListener("click", function(){
+  //   //     let id = brano.album.id
+  //   //     console.log(id);
+  //   // })
+  //   // let artistaLink = document...
+  //   // artistaLink.href = "./artist.html"
 
-    // AGGIUNGERE UN REINDERIZZAMENTO ALLA PAGINA DELL'ARTISTA QUANDO SI CLICCA SULLA CARD CHE CONTIENE L'ARTISTA O COMUNQUE SU QUEL DIV
-  });
+  //   // AGGIUNGERE UN REINDERIZZAMENTO ALLA PAGINA DELL'ARTISTA QUANDO SI CLICCA SULLA CARD CHE CONTIENE L'ARTISTA O COMUNQUE SU QUEL DIV
+  // });
 
-  let durataBranoSingolo = brani.data[0].duration;
-  console.log(convertiSecondi(durataBranoSingolo));
+  // let durataBranoSingolo = brani.data[0].duration;
+  // console.log(convertiSecondi(durataBranoSingolo));
+  } else {
+    targetHome.innerHTML = ""
+    let home = generaClone("#template-mid-cols")
+    targetHome.append(home)
+  }
+
+  
+
+  
+  
 }
 
 function convertiSecondi(secondi) {
