@@ -11869,7 +11869,7 @@ textarea.form-control-lg {
   background: linear-gradient(5deg, rgb(24, 24, 24) 49%, rgb(88, 88, 88) 100%);
 }
 #full-window #three-column #mid-col .album-title {
-  font-size: 60px;
+  font-size: 70px;
 }
 #full-window #three-column #mid-col .btn.rounded-circle {
   background-color: #181818;
@@ -11928,6 +11928,19 @@ textarea.form-control-lg {
 
 .letter-spacing {
   letter-spacing: 0.1em;
+}
+
+#mid-col img.rounded.mx-auto {
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.445);
+  width: 250px;
+}
+#mid-col #icon-container i:nth-of-type(1) {
+  font-size: 60px;
+  color: #1ed760;
+}
+#mid-col #icon-container i {
+  font-size: 40px;
+  color: gray;
 }
 
 /*# sourceMappingURL=style.css.map */
