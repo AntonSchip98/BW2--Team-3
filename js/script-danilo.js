@@ -48,6 +48,8 @@ fetch(`https://striveschool-api.herokuapp.com/api/deezer/search?q=${singerCasual
     playerImg.src = primoBrano.album.cover_small
   }
 
+  let playerTitle = document.querySelector("#playerTitle")
+  playerTitle.innerHTML = primoBrano.title
 
   })
 
