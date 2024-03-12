@@ -11886,9 +11886,6 @@ textarea.form-control-lg {
   overflow-y: auto;
   overflow-x: hidden;
 }
-#full-window #player {
-  background-color: #181818;
-}
 
 .text-white.mb-3 {
   background-color: #353535;
@@ -11920,6 +11917,164 @@ textarea.form-control-lg {
 }
 .right-card .grey-text-small {
   font-size: 10px;
+}
+
+.music-player {
+  background-color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 1em;
+  color: #ddd;
+}
+
+i {
+  color: #999;
+}
+
+i:hover {
+  color: #ddd;
+}
+
+.song-bar {
+  position: absolute;
+  left: 1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  width: 25%;
+}
+
+.song-infos {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.image-container {
+  flex-shrink: 0;
+  width: 4.5em;
+  height: 4.5em;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.song-description p {
+  margin: 0.2em;
+}
+
+.title,
+.artist {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.title:hover,
+.artist:hover {
+  text-decoration: underline;
+}
+
+.artist {
+  color: #999;
+}
+
+.icons {
+  display: flex;
+  gap: 1em;
+}
+
+.progress-controller {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5em;
+  color: #999;
+}
+
+.control-buttons {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+}
+
+.play-pause {
+  display: inline-block;
+  padding: 1em;
+  background-color: #ddd;
+  color: #111;
+  border-radius: 50%;
+}
+
+.play-pause:hover {
+  transform: scale(1.1);
+  color: #111;
+}
+
+.progress-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+.progress-bar {
+  height: 4px;
+  border-radius: 10px;
+  width: 30%;
+  background-color: rgba(204, 204, 204, 0.2666666667);
+}
+
+.progress {
+  position: relative;
+  height: 100%;
+  width: 30%;
+  border-radius: 10px;
+  background-color: #999;
+}
+
+.progress-bar:hover .progress {
+  background-color: #1ed760;
+}
+
+.progress-bar:hover .progress::after {
+  content: "";
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  right: 0;
+  border-radius: 50%;
+  background-color: #ddd;
+  transform: translate(50%, calc(2px - 50%));
+}
+
+.other-features {
+  position: absolute;
+  right: 1em;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.volume-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+}
+
+.volume-bar .progress-bar {
+  width: 6em;
 }
 
 /*# sourceMappingURL=style.css.map */
