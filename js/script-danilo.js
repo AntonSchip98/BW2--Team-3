@@ -38,8 +38,15 @@ fetch(`https://striveschool-api.herokuapp.com/api/deezer/search?q=${singerCasual
     targetBrani.append(a)
   });
 
+  // INIZIAMO LA PARTE DEL PLAYER
+  let playerImg = document.querySelector("#playerImg")
 
-
+  console.log(playerImg);
+  if (primoBrano.title == primoBrano.album.title) {
+    playerImg.src = primoBrano.artist.picture_small
+  } else {
+    playerImg.src = primoBrano.album.cover_small
+  }
 
 
   })
