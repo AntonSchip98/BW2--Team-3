@@ -6,16 +6,28 @@ fetch(
 )
   .then((res) => res.json())
   .then((brani) => {
-    // CREIAMO UNA LET PER NON RIPETERCI
     let primoBrano = brani.data[0];
 
-    //
+    brani.data.forEach(brano => {
+
+      let colBrano = generaClone()
+
+      let { imgCard6, titleCard6 } = selezioneElementiClone(colBrano)
+
+      modificaElementiClone(imgCard6, titleCard6)
+
+      let target = document.querySelector("#targetBuonasera")
+      target.append(colBrano)
+    });
+
+
+
     let type = document.querySelector("#type");
     type.innerHTML = controlloBranoAlbum(
       primoBrano.title,
       primoBrano.album.title
     );
-    let title = document.querySelector("#title");
+    let title = document.querySelector(".album-title");
     title.innerHTML = primoBrano.title;
 
     let img = document.querySelector("#copertina");
@@ -38,7 +50,6 @@ fetch(
     // FINE CARD
 
     // INIZIO PARTE SINISTRA
-    // ABBIMAO AGIGUNTO 2 CLASSI NELL HTML
     let targetBrani = document.querySelector("#left-col");
     brani.data.forEach((brano) => {
       let a = document.createElement("a");
@@ -50,7 +61,6 @@ fetch(
     // INIZIAMO LA PARTE DEL PLAYER
     let playerImg = document.querySelector("#playerImg");
 
-    console.log(playerImg);
     if (primoBrano.title == primoBrano.album.title) {
       playerImg.src = primoBrano.artist.picture_small;
     } else {
@@ -59,7 +69,37 @@ fetch(
 
     let playerTitle = document.querySelector("#playerTitle");
     playerTitle.innerHTML = primoBrano.title;
+
+    function modificaElementiClone(imgCard6, titleCard6) {
+      if (primoBrano.title == primoBrano.album.title) {
+        imgCard6.src = primoBrano.artist.picture_small;
+      } else {
+        imgCard6.src = primoBrano.album.cover_small;
+      }
+      // BISONGA CICLARRE ALTRIMENTI NON HA SENSO
+      titleCard6.innerHTML = brani.data.title
+    }
+
+
   });
+
+function generaClone() {
+  let template = document.querySelector('#template-buonasera')
+  let clone = template.content.cloneNode(true)
+  return clone;
+}
+
+
+function selezioneElementiClone(elemento) {
+  let imgCard6 = elemento.querySelector("#imgCard6")
+  let titleCard6 = elemento.querySelector("#titleCard6")
+
+  return {
+    imgCard6: imgCard6,
+    titleCard6: titleCard6,
+  }
+}
+
 
 function controlloBranoAlbum(titoloBrano, titoloAlbum) {
   if (titoloBrano == titoloAlbum) {
