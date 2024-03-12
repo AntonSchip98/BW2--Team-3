@@ -271,7 +271,176 @@ async function callSearch() {
   // console.log(convertiSecondi(durataBranoSingolo));
   } else {
     targetHome.innerHTML = ""
-    let home = generaClone("#template-mid-cols")
+    fetch(
+      `https://striveschool-api.herokuapp.com/api/deezer/search?q=${singerCasuale}`
+    )
+      .then((res) => res.json())
+      .then((brani) => {
+        let primoBrano = brani.data[0];
+    
+        let home = generaClone("#template-mid-cols")
+        
+        // CICLO FOR PER LE 6 CARD NELLA SEZIONE BUONASERA
+    
+        for (let i = 1; i < 7 && i < brani.data.length; i++) {
+          const brano = brani.data[i];
+    
+          let colBrano = generaClone("#template-buonasera")
+    
+          let { imgCard, titleCard } = selezioneElementiClone(colBrano)
+    
+          if (brano.title == brano.album.title) {
+            imgCard.src = brano.artist.picture_medium;
+          } else {
+            imgCard.src = brano.album.cover_medium;
+          }
+          titleCard.innerHTML = brano.title
+    
+          let target = home.querySelector("#targetBuonasera")
+          target.append(colBrano)
+        }
+    
+        // CICLO FOR PER LE 5 CARD NELLA SEZIONE ALTRO DI CIO CHE TI PIACE
+    
+        for (let i = 1; i < 6 && i < brani.data.length; i++) {
+          const brano = brani.data[i];
+    
+          let colBrano = generaClone("#template-CioCheTiPiace")
+    
+          let { imgCard, titleCard } = selezioneElementiClone(colBrano)
+    
+          let artistCard = colBrano.querySelector("#artistCard")
+    
+          if (brano.title == brano.album.title) {
+            imgCard.src = brano.artist.picture_medium;
+          } else {
+            imgCard.src = brano.album.cover_medium;
+          }
+    
+          titleCard.innerHTML = brano.title
+    
+          artistCard.innerHTML = artisti(brano.title, brano.artist.name)
+    
+          console.log(brano.artist.name);
+          let target = home.querySelector("#targetCioCheTiPiace")
+          target.append(colBrano)
+        }
+    
+        // CICLO FOREACH PER LO SHOWMORE DI TUTTE LE CARD NELLA SEZIONE ALTRO DI CIO CHE TI PIACE
+        let isClicked = false
+        let ShowMoreP = home.querySelector("#ShowMoreP")
+        ShowMoreP.addEventListener("click", showMore)
+        function showMore() {
+    
+          if (!isClicked) {
+            targetCioCheTiPiace.innerHTML = ""
+            ShowMoreP.innerHTML = "Riduci"
+            brani.data.shift()
+            brani.data.forEach(brano => {
+              let colBrano = generaClone("#template-CioCheTiPiace")
+    
+              let { imgCard, titleCard } = selezioneElementiClone(colBrano)
+    
+              let artistCard = colBrano.querySelector("#artistCard")
+    
+              if (brano.title == brano.album.title) {
+                imgCard.src = brano.artist.picture_medium;
+              } else {
+                imgCard.src = brano.album.cover_medium;
+              }
+    
+              titleCard.innerHTML = brano.title
+    
+              artistCard.innerHTML = artisti(brano.title, brano.artist.name)
+    
+              console.log(brano.artist.name);
+              let target = document.querySelector("#targetCioCheTiPiace")
+              target.append(colBrano)
+            });
+          } else {
+            targetCioCheTiPiace.innerHTML = ""
+            ShowMoreP.innerHTML = "Visualizza Tutto"
+            for (let i = 0; i < 5 && i < brani.data.length; i++) {
+              const brano = brani.data[i];
+    
+              let colBrano = generaClone("#template-CioCheTiPiace")
+    
+              let { imgCard, titleCard } = selezioneElementiClone(colBrano)
+    
+              let artistCard = colBrano.querySelector("#artistCard")
+    
+              if (brano.title == brano.album.title) {
+                imgCard.src = brano.artist.picture_medium;
+              } else {
+                imgCard.src = brano.album.cover_medium;
+              }
+    
+              titleCard.innerHTML = brano.title
+    
+              artistCard.innerHTML = artisti(brano.title, brano.artist.name)
+    
+              console.log(brano.artist.name);
+              let target = document.querySelector("#targetCioCheTiPiace")
+              target.append(colBrano)
+            }
+          }
+    
+          isClicked = !isClicked;
+    
+          
+        }
+    
+        let type = home.querySelector("#type");
+        type.innerHTML = controlloBranoAlbum(
+          primoBrano.title,
+          primoBrano.album.title
+        );
+        let title = home.querySelector(".album-title");
+        title.innerHTML = primoBrano.title;
+    
+        let img = home.querySelector("#copertina");
+        if (primoBrano.title == primoBrano.album.title) {
+          img.src = primoBrano.artist.picture_medium;
+        } else {
+          img.src = primoBrano.album.cover_medium;
+        }
+    
+        let artistP = home.querySelector("#artist");
+        artistP.innerHTML = artisti(primoBrano.title, primoBrano.artist.name);
+    
+        let claimP = home.querySelector("#claim");
+        claimP.innerHTML =
+          "Ascolta il nuovo " +
+          controlloBranoAlbum(primoBrano.title, primoBrano.album.title) +
+          " di " +
+          artisti(primoBrano.title, primoBrano.artist.name);
+    
+        // FINE CARD
+    
+        // INIZIO PARTE SINISTRA
+        let targetBrani = document.querySelector("#left-col");
+        brani.data.forEach((brano) => {
+          let a = document.createElement("a");
+          a.innerHTML = brano.title;
+          a.href = "#"; //album.html
+          targetBrani.append(a);
+        });
+    
+        // INIZIAMO LA PARTE DEL PLAYER
+        let playerImg = document.querySelector("#playerImg");
+    
+        if (primoBrano.title == primoBrano.album.title) {
+          playerImg.src = primoBrano.artist.picture_small;
+        } else {
+          playerImg.src = primoBrano.album.cover_small;
+        }
+    
+        let playerTitle = document.querySelector("#playerTitle");
+        playerTitle.innerHTML = primoBrano.title;
+    
+    
+        targetHome.append(home)
+      });
     targetHome.append(home)
   }
 
