@@ -1,81 +1,86 @@
-let singer = ["geolier", "annalisa", "angelina", "salmo", "gue"]
-let singerCasuale = singer[Math.floor(Math.random() * singer.length)]
+let singer = ["geolier", "annalisa", "angelina", "salmo", "gue"];
+let singerCasuale = singer[Math.floor(Math.random() * singer.length)];
 
-fetch(`https://striveschool-api.herokuapp.com/api/deezer/search?q=${singerCasuale}`)
+fetch(
+  `https://striveschool-api.herokuapp.com/api/deezer/search?q=${singerCasuale}`
+)
   .then((res) => res.json())
-  .then(brani => {  
+  .then((brani) => {
     // CREIAMO UNA LET PER NON RIPETERCI
-    let primoBrano = brani.data[0]
+    let primoBrano = brani.data[0];
 
-    // 
-    let type = document.querySelector("#type")
-    type.innerHTML = controlloBranoAlbum(primoBrano.title, primoBrano.album.title)
-    let title = document.querySelector("#title")
-    title.innerHTML = primoBrano.title
+    //
+    let type = document.querySelector("#type");
+    type.innerHTML = controlloBranoAlbum(
+      primoBrano.title,
+      primoBrano.album.title
+    );
+    let title = document.querySelector("#title");
+    title.innerHTML = primoBrano.title;
 
-    let img = document.querySelector("#copertina")
+    let img = document.querySelector("#copertina");
     if (primoBrano.title == primoBrano.album.title) {
-      img.src = primoBrano.artist.picture_medium
+      img.src = primoBrano.artist.picture_medium;
     } else {
-      img.src = primoBrano.album.cover_medium
+      img.src = primoBrano.album.cover_medium;
     }
 
-    let artistP = document.querySelector("#artist")
-    artistP.innerHTML = artisti(primoBrano.title, primoBrano.artist.name)
+    let artistP = document.querySelector("#artist");
+    artistP.innerHTML = artisti(primoBrano.title, primoBrano.artist.name);
 
-    let claimP = document.querySelector("#claim")
-    claimP.innerHTML = "Ascolta il nuovo " + controlloBranoAlbum(primoBrano.title, primoBrano.album.title) + " di " + artisti(primoBrano.title, primoBrano.artist.name) 
+    let claimP = document.querySelector("#claim");
+    claimP.innerHTML =
+      "Ascolta il nuovo " +
+      controlloBranoAlbum(primoBrano.title, primoBrano.album.title) +
+      " di " +
+      artisti(primoBrano.title, primoBrano.artist.name);
 
-  // FINE CARD
+    // FINE CARD
 
-  // INIZIO PARTE SINISTRA
-  // ABBIMAO AGIGUNTO 2 CLASSI NELL HTML
-  let targetBrani = document.querySelector("#left-col")
-  brani.data.forEach(brano => {
-    let a = document.createElement("a")
-    a.innerHTML = brano.title
-    a.href = "#"//album.html
-    targetBrani.append(a)
+    // INIZIO PARTE SINISTRA
+    // ABBIMAO AGIGUNTO 2 CLASSI NELL HTML
+    let targetBrani = document.querySelector("#left-col");
+    brani.data.forEach((brano) => {
+      let a = document.createElement("a");
+      a.innerHTML = brano.title;
+      a.href = "#"; //album.html
+      targetBrani.append(a);
+    });
+
+    // INIZIAMO LA PARTE DEL PLAYER
+    let playerImg = document.querySelector("#playerImg");
+
+    console.log(playerImg);
+    if (primoBrano.title == primoBrano.album.title) {
+      playerImg.src = primoBrano.artist.picture_small;
+    } else {
+      playerImg.src = primoBrano.album.cover_small;
+    }
+
+    let playerTitle = document.querySelector("#playerTitle");
+    playerTitle.innerHTML = primoBrano.title;
   });
 
-  // INIZIAMO LA PARTE DEL PLAYER
-  let playerImg = document.querySelector("#playerImg")
-
-  console.log(playerImg);
-  if (primoBrano.title == primoBrano.album.title) {
-    playerImg.src = primoBrano.artist.picture_small
+function controlloBranoAlbum(titoloBrano, titoloAlbum) {
+  if (titoloBrano == titoloAlbum) {
+    return "singolo";
   } else {
-    playerImg.src = primoBrano.album.cover_small
+    return "album";
   }
-
-
-
-
-  })
-
-  function controlloBranoAlbum(titoloBrano, titoloAlbum) {
-    if (titoloBrano == titoloAlbum) {
-      return "singolo"
-    } else {
-      return "album"
-    }
-  }
+}
 function artisti(titolo, artista) {
   if (titolo.toLowerCase().includes("feat")) {
-    const parti = titolo.split("feat.")
+    const parti = titolo.split("feat.");
     if (parti.length > 1) {
       const dopoFeat = parti[1].slice(0, -1).trim();
-      return artista + ", " + dopoFeat
+      return artista + ", " + dopoFeat;
     }
-  }else {
-    return artista
+  } else {
+    return artista;
   }
-
 }
 
-
-
-document.querySelector("#cerca").addEventListener('input', callSearch);
+document.querySelector("#cerca").addEventListener("input", callSearch);
 
 async function callSearch() {
   let ricerca = document.querySelector("#cerca");
