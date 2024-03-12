@@ -1,7 +1,7 @@
 // AD OGNI RELOAD LA FETCH VIENE ESEGUITA CON UNA PAROLA CASUALE SCELTA DA QUESTO ARRAY
 let singer = ["geolier", "annalisa", "angelina", "salmo", "gue"];
 let singerCasuale = singer[Math.floor(Math.random() * singer.length)];
-let ShowMoreP = document.querySelector("#ShowMoreP")
+
 let targetHome = document.querySelector("#target-mid-col")
 
 
@@ -11,8 +11,8 @@ fetch(
   .then((res) => res.json())
   .then((brani) => {
     let primoBrano = brani.data[0];
+
     let home = generaClone("#template-mid-cols")
-    targetHome.append(home)
     
     // CICLO FOR PER LE 6 CARD NELLA SEZIONE BUONASERA
 
@@ -30,8 +30,9 @@ fetch(
       }
       titleCard.innerHTML = brano.title
 
-      let target = document.querySelector("#targetBuonasera")
+      let target = home.querySelector("#targetBuonasera")
       target.append(colBrano)
+      home.append(target)
     }
 
     // CICLO FOR PER LE 5 CARD NELLA SEZIONE ALTRO DI CIO CHE TI PIACE
@@ -56,12 +57,14 @@ fetch(
       artistCard.innerHTML = artisti(brano.title, brano.artist.name)
 
       console.log(brano.artist.name);
-      let target = document.querySelector("#targetCioCheTiPiace")
+      let target = home.querySelector("#targetCioCheTiPiace")
       target.append(colBrano)
+      home.append(target)
     }
 
     // CICLO FOREACH PER LO SHOWMORE DI TUTTE LE CARD NELLA SEZIONE ALTRO DI CIO CHE TI PIACE
     let isClicked = false
+    let ShowMoreP = home.querySelector("#ShowMoreP")
     ShowMoreP.addEventListener("click", showMore)
     function showMore() {
 
@@ -119,27 +122,29 @@ fetch(
       }
 
       isClicked = !isClicked;
+
+      
     }
 
-    let type = document.querySelector("#type");
+    let type = home.querySelector("#type");
     type.innerHTML = controlloBranoAlbum(
       primoBrano.title,
       primoBrano.album.title
     );
-    let title = document.querySelector(".album-title");
+    let title = home.querySelector(".album-title");
     title.innerHTML = primoBrano.title;
 
-    let img = document.querySelector("#copertina");
+    let img = home.querySelector("#copertina");
     if (primoBrano.title == primoBrano.album.title) {
       img.src = primoBrano.artist.picture_medium;
     } else {
       img.src = primoBrano.album.cover_medium;
     }
 
-    let artistP = document.querySelector("#artist");
+    let artistP = home.querySelector("#artist");
     artistP.innerHTML = artisti(primoBrano.title, primoBrano.artist.name);
 
-    let claimP = document.querySelector("#claim");
+    let claimP = home.querySelector("#claim");
     claimP.innerHTML =
       "Ascolta il nuovo " +
       controlloBranoAlbum(primoBrano.title, primoBrano.album.title) +
@@ -169,6 +174,8 @@ fetch(
     let playerTitle = document.querySelector("#playerTitle");
     playerTitle.innerHTML = primoBrano.title;
 
+
+    targetHome.append(home)
   });
 
 function generaClone(selettore) {
