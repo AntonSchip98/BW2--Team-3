@@ -41,7 +41,8 @@ cursor: pointer;
         );
       }
       .img-size {
-        width: 100%;
+        width: 80px;
+        
       }
       .custom-card {
         background-color: black;
@@ -51,6 +52,7 @@ cursor: pointer;
     #right-col {
       height: 90vh;
       overflow-y: auto;
+      overflow-x: hidden;
     }
   }
 
@@ -84,4 +86,13 @@ cursor: pointer;
 
   border-radius: 25px;
   padding: 2px;
+}
+
+.right-card {
+  font-size: small;
+  color: rgb(151, 151, 151);
+  .grey-text-small{
+    font-size: 10px;
+
+  }
 }

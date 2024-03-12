@@ -11875,7 +11875,7 @@ textarea.form-control-lg {
   background: linear-gradient(5deg, rgb(0, 0, 0) 39%, rgb(88, 88, 88) 100%);
 }
 #full-window #three-column #mid-col .img-size {
-  width: 100%;
+  width: 80px;
 }
 #full-window #three-column #mid-col .custom-card {
   background-color: black;
@@ -11884,6 +11884,7 @@ textarea.form-control-lg {
 #full-window #three-column #right-col {
   height: 90vh;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 #full-window #player {
   background-color: #181818;
@@ -11911,6 +11912,14 @@ textarea.form-control-lg {
 .flex-shrink-0.dropdown {
   border-radius: 25px;
   padding: 2px;
+}
+
+.right-card {
+  font-size: small;
+  color: rgb(151, 151, 151);
+}
+.right-card .grey-text-small {
+  font-size: 10px;
 }
 
 /*# sourceMappingURL=style.css.map */
