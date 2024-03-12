@@ -11860,12 +11860,16 @@ textarea.form-control-lg {
 #full-window #three-column #left-col {
   height: 60vh;
   overflow-y: auto;
+  color: rgb(151, 151, 151);
 }
 #full-window #three-column #mid-col {
   height: 90vh;
   overflow-y: auto;
   background: rgb(24, 24, 24);
   background: linear-gradient(5deg, rgb(24, 24, 24) 49%, rgb(88, 88, 88) 100%);
+}
+#full-window #three-column #mid-col .album-title {
+  font-size: 60px;
 }
 #full-window #three-column #mid-col .btn.rounded-circle {
   background-color: #181818;
@@ -11878,7 +11882,7 @@ textarea.form-control-lg {
   width: 80px;
 }
 #full-window #three-column #mid-col .custom-card {
-  background-color: black;
+  background-color: rgb(29, 29, 29);
   color: #ffffff;
 }
 #full-window #three-column #right-col {
@@ -11920,6 +11924,10 @@ textarea.form-control-lg {
 }
 .right-card .grey-text-small {
   font-size: 10px;
+}
+
+.letter-spacing {
+  letter-spacing: 0.1em;
 }
 
 /*# sourceMappingURL=style.css.map */

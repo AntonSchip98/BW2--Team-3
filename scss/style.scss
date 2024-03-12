@@ -9,16 +9,16 @@ $green: #1ed760;
   #three-column {
     height: 90vh;
     overflow-y: hidden;
-    
-    .paragrafoHover:hover{
+
+    .paragrafoHover:hover {
       transform: scale(1.05);
-transition: transform 0.3s ease;
-cursor: pointer;
+      transition: transform 0.3s ease;
+      cursor: pointer;
     }
     #left-col {
       height: 60vh;
       overflow-y: auto;
-
+      color: rgb(151, 151, 151);
     }
     #mid-col {
       height: 90vh;
@@ -29,6 +29,11 @@ cursor: pointer;
         rgba(24, 24, 24, 1) 49%,
         rgba(88, 88, 88, 1) 100%
       );
+
+      .album-title {
+        font-size: 60px;
+      }
+
       .btn.rounded-circle {
         background-color: #181818;
       }
@@ -42,10 +47,9 @@ cursor: pointer;
       }
       .img-size {
         width: 80px;
-        
       }
       .custom-card {
-        background-color: black;
+        background-color: rgb(29, 29, 29);
         color: #ffffff;
       }
     }
@@ -65,25 +69,21 @@ cursor: pointer;
   background-color: #353535;
 }
 
-.displayNone{
-
+.displayNone {
   display: none;
 }
 
-#inputCerca{
-
-  background-color: black ;
+#inputCerca {
+  background-color: black;
   border-radius: 25px;
   padding: 10px;
   border: 2px solid white;
-  
 }
-#inputCerca::placeholder{
-  color:white
+#inputCerca::placeholder {
+  color: white;
 }
 
-.flex-shrink-0.dropdown{
-
+.flex-shrink-0.dropdown {
   border-radius: 25px;
   padding: 2px;
 }
@@ -91,8 +91,11 @@ cursor: pointer;
 .right-card {
   font-size: small;
   color: rgb(151, 151, 151);
-  .grey-text-small{
+  .grey-text-small {
     font-size: 10px;
-
   }
+}
+
+.letter-spacing {
+  letter-spacing: 0.1em;
 }
