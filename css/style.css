@@ -11852,6 +11852,11 @@ textarea.form-control-lg {
   height: 90vh;
   overflow-y: hidden;
 }
+#full-window #three-column .paragrafoHover:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
 #full-window #three-column #left-col {
   height: 60vh;
   overflow-y: auto;
@@ -11886,6 +11891,26 @@ textarea.form-control-lg {
 
 .text-white.mb-3 {
   background-color: #353535;
+}
+
+.displayNone {
+  display: none;
+}
+
+#inputCerca {
+  background-color: black;
+  border-radius: 25px;
+  padding: 10px;
+  border: 2px solid white;
+}
+
+#inputCerca::placeholder {
+  color: white;
+}
+
+.flex-shrink-0.dropdown {
+  border-radius: 25px;
+  padding: 2px;
 }
 
 /*# sourceMappingURL=style.css.map */
