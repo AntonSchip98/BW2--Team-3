@@ -453,7 +453,7 @@
             </div>
           </div>
         </div>
-        <div class="music-player">
+        <div class="music-player pt-2 pb-5 mb-2">
           <div class="song-bar">
             <div class="song-infos">
               <div class="image-container">
@@ -468,7 +468,7 @@
               <i class="bi bi-heart"></i>
             </div>
           </div>
-          <div class="progress-controller">
+          <div class="progress-controller pb-2">
             <audio
               id="song"
               src="./assets/Sigla Dragon Ball 1° serie.mp3"
@@ -478,7 +478,7 @@
               <i class="bi bi-shuffle"></i>
               <i class="bi bi-skip-backward-fill"></i>
               <i
-                class="bi bi-play-fill bg-white text-black btn rounded-circle play-pause"
+                class="bi bi-play-fill bg-white text-black rounded-circle play-pause  fs-2 px-2 "
                 id="playIcon"
               ></i>
               <i class="bi bi-skip-forward-fill"></i>
@@ -487,7 +487,7 @@
             <div class="progress-container">
               <span id="progresso">0:00</span>
               <div class="progress-bar">
-                <div class="progress" id="progress-bar"></div>
+                <input type="range" min="0" max="100" value="0" class="progress bg-secondary" id="progress-bar"/>
               </div>
               <span id="durata">0:00</span>
             </div>
@@ -499,7 +499,7 @@
             <div class="volume-bar">
               <i class="bi bi-volume-up"></i>
               <div class="progress-bar">
-                <div class="progress"></div>
+                <input type="range" min="0" max="100" value="50" class="progress"/>
               </div>
               <i class="bi bi-arrows-angle-expand"></i>
             </div>
@@ -539,7 +539,7 @@
       playPause.addEventListener("click", function () {
         if (!suona) {
           song.play();
-          let element = document.querySelector(".bi-play-fill"); // Mancava il punto qui
+          let element = document.querySelector(".bi-play-fill");
           element.classList.remove("bi-play-fill");
           element.classList.add("bi-pause-fill");
           suona = true;
@@ -573,28 +573,30 @@
     let progressPercent = (currentTime / audio.duration) * 100;
     progressBar.style.width = progressPercent + '%';
 });
-progressBar.addEventListener('click', function(event){
-  var progressBarWidth = this.offsetWidth;
-  // Calcola la posizione in cui l'utente ha cliccato
-  var clickPosition = event.offsetX;
-  // Calcola la percentuale corrispondente alla posizione cliccata
-  var clickPercentage = (clickPosition / progressBarWidth);
-  console.log(clickPercentage);
-  // Imposta il currentTime dell'audio alla percentuale cliccata
-  audio.currentTime = clickPercentage * audio.duration;
 
-  // Aggiorna la barra di avanzamento
-  updateProgressBar();
-});
+    // Aggiorna anche il tempo corrente
+    //var formatCurrentTime = formatTime(currentTimeInSeconds);
+    //progresso.textContent = formatCurrentTime;
 
-// Funzione per aggiornare la barra di avanzamento
-function updateProgressBar() {
-  var currentTimeInSeconds = audio.currentTime;
-  var durationInSeconds = audio.duration;
-  var progress = (currentTimeInSeconds / durationInSeconds) * 100;
-  progressBar.style.width = progress + "%";
+
+function scrub(event) {
+  const scrubTime =
+    (event.offsetX / progressBar.offsetWidth) * audio.duration;
+  audio.currentTime = scrubTime;
+  console.log(scrubTime,event.offsetX , progressBar.offsetWidth);
+  updateProgressBar()
 }
 
+progressBar.addEventListener("click", scrub);
+
+
+function updateProgressBar() {
+  const currentTimeInSeconds = audio.currentTime;
+  const durationInSeconds = audio.duration;
+  const progress = (currentTimeInSeconds / durationInSeconds) * 100;
+  console.log(progress);
+  progressBar.style.width = progress + "%";
+}
 
 
 

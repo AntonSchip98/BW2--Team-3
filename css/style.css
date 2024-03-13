@@ -11849,7 +11849,7 @@ textarea.form-control-lg {
   overflow: hidden;
 }
 #full-window #three-column {
-  height: 90vh;
+  height: 87vh;
   overflow-y: hidden;
 }
 #full-window #three-column .paragrafoHover:hover {
@@ -11926,7 +11926,6 @@ textarea.form-control-lg {
   align-items: center;
   position: relative;
   color: #ddd;
-  padding-top: 10px;
 }
 
 .music-player i:hover {
