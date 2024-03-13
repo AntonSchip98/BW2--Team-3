@@ -486,8 +486,8 @@
             </div>
             <div class="progress-container">
               <span id="progresso">0:00</span>
-              <div class="progress-bar">
-                <input type="range" min="0" max="100" value="0" class="progress bg-secondary" id="progress-bar"/>
+              <div class="progress-bar w-25" id="progress-bar">
+                <input type="range" min="0" max="100" value="0" class="progressed" id="progressed"/>
               </div>
               <span id="durata">0:00</span>
             </div>
@@ -579,25 +579,38 @@
     //progresso.textContent = formatCurrentTime;
 
 
-function scrub(event) {
-  const scrubTime =
-    (event.offsetX / progressBar.offsetWidth) * audio.duration;
-  audio.currentTime = scrubTime;
-  console.log(scrubTime,event.offsetX , progressBar.offsetWidth);
-  updateProgressBar()
+//function scrub(event) {
+//  const scrubTime =
+//    (event.offsetX / progressBar.offsetWidth) * audio.duration;
+//  audio.currentTime = scrubTime;
+//  console.log(scrubTime,event.offsetX , progressBar.offsetWidth,audio.duration);
+//  updateProgressBar()
+//}
+
+//progressBar.addEventListener("click", function(e){
+//  const scrubTime =
+//    (event.offsetX / progressBar.offsetWidth) * audio.duration;
+//  audio.currentTime = scrubTime;
+//  console.log(scrubTime,event.offsetX , progressBar.offsetWidth,audio.duration);
+//  updateProgressBar()
+//});
+//
+//
+//function updateProgressBar() {
+//  const currentTimeInSeconds = audio.currentTime;
+//  const durationInSeconds = audio.duration;
+//  const progress = (currentTimeInSeconds / durationInSeconds) * 100;
+//  console.log(progress);
+//  progressBar.style.width = progress + "%";
+//}
+let progressed = document.querySelector('#progressed')
+let progress_bar = document.querySelector('#progress-bar')
+song.ontimeupdate = function(e){
+progressed.style.width = Math.floor(song.currentTime*100/song.duration)+"%";
 }
-
-progressBar.addEventListener("click", scrub);
-
-
-function updateProgressBar() {
-  const currentTimeInSeconds = audio.currentTime;
-  const durationInSeconds = audio.duration;
-  const progress = (currentTimeInSeconds / durationInSeconds) * 100;
-  console.log(progress);
-  progressBar.style.width = progress + "%";
+progress_bar.onclick = function(e){
+song.currentTime = ((e.offsetX/progress_bar.offsetWidth)* song.duration);
 }
-
 
 
     </script>

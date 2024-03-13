@@ -129,6 +129,8 @@ cursor: pointer;
   width: 25%;
 }
 
+
+
 .song-infos {
   display: flex;
   align-items: center;
@@ -201,12 +203,16 @@ cursor: pointer;
   width: 30%;
   background-color: #ccc4;
 }
-.progress{
+
+#progressed{
   position: relative;
   height: 100%;
   border-radius: 10px;
-  background-color: #999;
-}
+  background-color: white;
+  &:hover{
+    background-color: $green;
+}}
+
 
 
 .progress-bar:hover .progress{
