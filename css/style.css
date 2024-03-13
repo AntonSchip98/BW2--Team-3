@@ -11925,8 +11925,8 @@ textarea.form-control-lg {
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 1em;
   color: #ddd;
+  padding-top: 10px;
 }
 
 .music-player i:hover {
@@ -12033,7 +12033,6 @@ textarea.form-control-lg {
 .progress {
   position: relative;
   height: 100%;
-  width: 30%;
   border-radius: 10px;
   background-color: #999;
 }
@@ -12069,6 +12068,11 @@ textarea.form-control-lg {
 
 .volume-bar .progress-bar {
   width: 6em;
+}
+
+.custom-btn {
+  height: 20px;
+  width: 20px;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -485,11 +485,11 @@
               <i class="bi bi-repeat"></i>
             </div>
             <div class="progress-container">
-              <span>1:49</span>
+              <span id="progresso">0:00</span>
               <div class="progress-bar">
                 <div class="progress" id="progress-bar"></div>
               </div>
-              <span>3:15</span>
+              <span id="durata">0:00</span>
             </div>
           </div>
           <div class="other-features">
@@ -526,11 +526,14 @@
 
       let player = document.querySelector(".music-player");
 
-      let progress = document.querySelector("#progress-bar");
-
+      
       let playPause = document.querySelector("#playIcon");
-
+      
+      //selettori per player
+      let progresso = document.querySelector('#progresso')
+      let durata = document.querySelector('#durata')
       let audio = document.querySelector("#song");
+      let progressBar = document.querySelector("#progress-bar");
 
       let suona = false;
       playPause.addEventListener("click", function () {
@@ -538,16 +541,63 @@
           song.play();
           let element = document.querySelector(".bi-play-fill"); // Mancava il punto qui
           element.classList.remove("bi-play-fill");
-          element.classList.add("bi-pause-circle-fill");
+          element.classList.add("bi-pause-fill");
           suona = true;
         } else {
           song.pause();
-          let element = document.querySelector(".bi-pause-circle-fill");
-          element.classList.remove("bi-pause-circle-fill");
+          let element = document.querySelector(".bi-pause-fill");
+          element.classList.remove("bi-pause-fill");
           element.classList.add("bi-play-fill");
           suona = false;
         }
       });
+      // tempo totale canzone
+      audio.addEventListener('loadedmetadata', function(){
+        let durataSec = audio.duration
+        let formatDurata = formatTime(durataSec)
+        durata.textContent = formatDurata
+      })
+
+
+      function formatTime(timeInSeconds) {
+        let minutes = Math.floor(timeInSeconds / 60);
+        let seconds = Math.floor(timeInSeconds % 60);
+        return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    }
+
+    //avanzamento barra
+    audio.addEventListener('timeupdate', function() {
+    let currentTime = audio.currentTime;
+    let formatCurrentTime = formatTime(currentTime);
+    progresso.textContent = formatCurrentTime;
+    let progressPercent = (currentTime / audio.duration) * 100;
+    progressBar.style.width = progressPercent + '%';
+});
+progressBar.addEventListener('click', function(event){
+  var progressBarWidth = this.offsetWidth;
+  // Calcola la posizione in cui l'utente ha cliccato
+  var clickPosition = event.offsetX;
+  // Calcola la percentuale corrispondente alla posizione cliccata
+  var clickPercentage = (clickPosition / progressBarWidth);
+  console.log(clickPercentage);
+  // Imposta il currentTime dell'audio alla percentuale cliccata
+  audio.currentTime = clickPercentage * audio.duration;
+
+  // Aggiorna la barra di avanzamento
+  updateProgressBar();
+});
+
+// Funzione per aggiornare la barra di avanzamento
+function updateProgressBar() {
+  var currentTimeInSeconds = audio.currentTime;
+  var durationInSeconds = audio.duration;
+  var progress = (currentTimeInSeconds / durationInSeconds) * 100;
+  progressBar.style.width = progress + "%";
+}
+
+
+
+
     </script>
   </body>
 </html>
