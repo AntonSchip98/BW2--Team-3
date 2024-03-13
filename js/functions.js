@@ -112,3 +112,12 @@ export async function getCall(value) {
   const product = await res.json();
   return product;
 }
+
+
+export async function getCallArtistAlbum(value, id) {
+  const res = await fetch(
+    `https://striveschool-api.herokuapp.com/api/deezer/${value}/${id}`
+  );
+  const product = await res.json();
+  return product;
+}
