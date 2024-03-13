@@ -4,7 +4,6 @@ let singerCasuale = singer[Math.floor(Math.random() * singer.length)];
 
 let targetHome = document.querySelector("#target-mid-col")
 
-
 fetch(
   `https://striveschool-api.herokuapp.com/api/deezer/search?q=${singerCasuale}`
 )
