@@ -15,50 +15,56 @@ fetch(
     let home = generaClone("#template-mid-cols")
     
     // CICLO FOR PER LE 6 CARD NELLA SEZIONE BUONASERA
-
-    for (let i = 1; i < 7 && i < brani.data.length; i++) {
-      const brano = brani.data[i];
-
-      let colBrano = generaClone("#template-buonasera")
-
-      let { imgCard, titleCard } = selezioneElementiClone(colBrano)
-
-      if (brano.title == brano.album.title) {
-        imgCard.src = brano.artist.picture_medium;
-      } else {
-        imgCard.src = brano.album.cover_medium;
+    cicloBuonasera()
+    function cicloBuonasera() {
+      for (let i = 1; i < 7 && i < brani.data.length; i++) {
+        const brano = brani.data[i];
+  
+        let colBrano = generaClone("#template-buonasera")
+  
+        let { imgCard, titleCard } = selezioneElementiClone(colBrano)
+  
+        if (brano.title == brano.album.title) {
+          imgCard.src = brano.artist.picture_medium;
+        } else {
+          imgCard.src = brano.album.cover_medium;
+        }
+        titleCard.innerHTML = brano.title
+  
+        let target = home.querySelector("#targetBuonasera")
+        target.append(colBrano)
       }
-      titleCard.innerHTML = brano.title
-
-      let target = home.querySelector("#targetBuonasera")
-      target.append(colBrano)
     }
+    
 
     // CICLO FOR PER LE 5 CARD NELLA SEZIONE ALTRO DI CIO CHE TI PIACE
+    cicloAltroDiCioCheTiPiace()
+    function cicloAltroDiCioCheTiPiace() {
+  for (let i = 1; i < 6 && i < brani.data.length; i++) {
+    const brano = brani.data[i];
 
-    for (let i = 1; i < 6 && i < brani.data.length; i++) {
-      const brano = brani.data[i];
+    let colBrano = generaClone("#template-CioCheTiPiace")
 
-      let colBrano = generaClone("#template-CioCheTiPiace")
+    let { imgCard, titleCard } = selezioneElementiClone(colBrano)
 
-      let { imgCard, titleCard } = selezioneElementiClone(colBrano)
+    let artistCard = colBrano.querySelector("#artistCard")
 
-      let artistCard = colBrano.querySelector("#artistCard")
-
-      if (brano.title == brano.album.title) {
-        imgCard.src = brano.artist.picture_medium;
-      } else {
-        imgCard.src = brano.album.cover_medium;
-      }
-
-      titleCard.innerHTML = brano.title
-
-      artistCard.innerHTML = artisti(brano.title, brano.artist.name)
-
-      console.log(brano.artist.name);
-      let target = home.querySelector("#targetCioCheTiPiace")
-      target.append(colBrano)
+    if (brano.title == brano.album.title) {
+      imgCard.src = brano.artist.picture_medium;
+    } else {
+      imgCard.src = brano.album.cover_medium;
     }
+
+    titleCard.innerHTML = brano.title
+
+    artistCard.innerHTML = artisti(brano.title, brano.artist.name)
+
+    console.log(brano.artist.name);
+    let target = home.querySelector("#targetCioCheTiPiace")
+    target.append(colBrano)
+  }
+}
+    
 
     // CICLO FOREACH PER LO SHOWMORE DI TUTTE LE CARD NELLA SEZIONE ALTRO DI CIO CHE TI PIACE
     let isClicked = false
@@ -124,6 +130,7 @@ fetch(
       
     }
 
+    // INIZIO PRIMO LABUM
     let type = home.querySelector("#type");
     type.innerHTML = controlloBranoAlbum(
       primoBrano.title,
@@ -201,6 +208,7 @@ function controlloBranoAlbum(titoloBrano, titoloAlbum) {
     return "album";
   }
 }
+
 function artisti(titolo, artista) {
   if (titolo.toLowerCase().includes("feat")) {
     const parti = titolo.split("feat.");
@@ -213,6 +221,8 @@ function artisti(titolo, artista) {
   }
 }
 
+
+// INIZIO SCRIPT INPUT
 let cerca = document.querySelector("#cerca");
 let inputCerca = document.querySelector("#inputCerca");
 
