@@ -2151,6 +2151,9 @@ function formatTime(timeInSeconds) {
   return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 } //avanzamento barra
 
+let progressed = document.querySelector("#progressed");
+let progress_bar = document.querySelector("#progress-bar");
+
 audio.addEventListener("timeupdate", function () {
   let currentTime = audio.currentTime;
   let formatCurrentTime = formatTime(currentTime);
@@ -2161,16 +2164,8 @@ audio.addEventListener("timeupdate", function () {
   durata.textContent = formatRemainingTime;
   let progressPercent = (currentTime / audio.duration) * 100;
   progressBar.style.width = progressPercent + "%";
+  progressed.value = progressPercent;
 });
-
-let progressed = document.querySelector("#progressed");
-let progress_bar = document.querySelector("#progress-bar");
-// let audio = document.querySelector("#song");
-
-song.ontimeupdate = function (e) {
-  const duration = (audio.currentTime / audio.duration) * 100;
-  progressed.value = duration;
-};
 
 progress_bar.onclick = function (e) {
   audio.currentTime = (e.offsetX / progress_bar.offsetWidth) * audio.duration;
@@ -2180,3 +2175,62 @@ progress_bar.onclick = function (e) {
     Math.floor((audio.currentTime * 100) / audio.duration) + "%"
   );
 };
+
+//il volume
+let volume = document.querySelector('#volumeControl')
+volume.addEventListener("input", function() {
+  song.volume = this.value;
+});
+//ripeti
+let ripeti = document.querySelector('#ripeti')
+ripeti.addEventListener('click', function(){
+  if(song.loop){
+    song.loop = false
+    this.style.color = ""
+  }else{
+    song.loop = true
+    this.style.color = "green"
+  }
+})
+// muto
+let muto = document.querySelector('#muto')
+
+let mutato = false
+muto.addEventListener("click", function() {
+  if (mutato) {
+    // Se è muto, riattiva il suono e modifica l'icona
+    song.volume = 1;
+    mutato = false;
+    muto.classList.remove("bi-volume-mute");
+    muto.classList.add("bi-volume-up");
+  } else {
+    // Se non è muto, disattiva il suono e modifica l'icona
+    song.volume = 0;
+    mutato = true;
+    muto.classList.remove("bi-volume-up");
+    muto.classList.add("bi-volume-mute");
+  }
+});
+//avanti e indietro
+let prec = document.querySelector('#prec')
+let next = document.querySelector('#next')
+let indiceCanzone = 0
+
+let canzoni = ["./assets/01. cha-la head-cha-la (tv size).mp3.mp3","./assets/Dadju & Tayc - One Piece (Lyrics video).mp3"]
+
+function playCurrent() {
+  audio.src = canzoni[indiceCanzone];
+  audio.play();
+}
+
+// Gestione del click sul pulsante "prec"
+prec.addEventListener("click", function() {
+  indiceCanzone = (indiceCanzone - 1 + canzoni.length) % canzoni.length;
+  playCurrent();
+});
+
+// Gestione del click sul pulsante "next"
+next.addEventListener("click", function() {
+  indiceCanzone = (indiceCanzone + 1) % canzoni.length;
+  playCurrent();
+});
