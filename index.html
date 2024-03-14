@@ -487,7 +487,7 @@
             <div class="progress-container">
               <span id="progresso">0:00</span>
               <div class="progress-bar w-25" id="progress-bar">
-                <input type="range" min="0" max="100" value="0" class="progressed" id="progressed"/>
+                <input type="range" min="0" max="100" value="0" id="progressed"/>
               </div>
               <span id="durata">0:00</span>
             </div>
@@ -570,6 +570,10 @@
     let currentTime = audio.currentTime;
     let formatCurrentTime = formatTime(currentTime);
     progresso.textContent = formatCurrentTime;
+    let totalTime = audio.duration;
+    let remainingTime = totalTime - currentTime;
+    let formatRemainingTime = formatTime(remainingTime);
+    durata.textContent = formatRemainingTime;
     let progressPercent = (currentTime / audio.duration) * 100;
     progressBar.style.width = progressPercent + '%';
 });
@@ -605,13 +609,14 @@
 //}
 let progressed = document.querySelector('#progressed')
 let progress_bar = document.querySelector('#progress-bar')
-song.ontimeupdate = function(e){
-progressed.style.width = Math.floor(song.currentTime*100/song.duration)+"%";
-}
+
 progress_bar.onclick = function(e){
 song.currentTime = ((e.offsetX/progress_bar.offsetWidth)* song.duration);
 }
-
+audio.addEventListener("input", function() {
+  let volume = this.value / 100;
+  song.volume = volume;
+});
 
     </script>
   </body>
