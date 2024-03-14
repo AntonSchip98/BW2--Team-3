@@ -22,8 +22,7 @@ getCall(singerCasuale).then((brani) => {
   console.log(primoBrano);
   // INIZIO MODIFICHE PER PRELEVARE LE CANZONI
   brani.data.forEach((brano) => {
-    let songs = brano.preview;
-    console.log(songs);
+    canzoni.push(brano)
   });
   // FINE MODIFICHE PER PRELEVARE LE CANZONI
 
@@ -2123,6 +2122,10 @@ let durata = document.querySelector("#durata");
 let audio = document.querySelector("#song");
 let progressBar = document.querySelector("#progress-bar");
 
+let playerImg = document.querySelector("#playerImg");
+let playerArtist = document.querySelector(".playerArtist");
+let playerTitle = document.querySelector("#playerTitle");
+
 let suona = false;
 playPause.addEventListener("click", function () {
   if (!suona) {
@@ -2216,9 +2219,18 @@ let prec = document.querySelector('#prec')
 let next = document.querySelector('#next')
 let indiceCanzone = 0
 
-let canzoni = ["./assets/01. cha-la head-cha-la (tv size).mp3.mp3","./assets/Dadju & Tayc - One Piece (Lyrics video).mp3"]
+let canzoni = []
 
+console.log(canzoni);
 function playCurrent() {
+  playerArtist.innerHTML = canzoni[indiceCanzone].artist.name
+  playerTitle.innerHTML = canzoni[indiceCanzone].title
+  
+  if (canzoni[indiceCanzone].title == canzoni[indiceCanzone].album.title) {
+    playerImg.src = canzoni[indiceCanzone].artist.picture_small;
+  } else {
+    playerImg.src = canzoni[indiceCanzone].album.cover_small;
+  }
   audio.src = canzoni[indiceCanzone];
   audio.play();
 }
