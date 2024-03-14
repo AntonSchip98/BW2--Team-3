@@ -11951,4 +11951,10 @@ textarea.form-control-lg {
   background-color: #181818;
 }
 
+.footer-mobile {
+  z-index: 2;
+  position: sticky;
+  bottom: 0;
+}
+
 /*# sourceMappingURL=style.css.map */
