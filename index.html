@@ -13,10 +13,10 @@
   <div id="full-window" class="container-fluid">
     <div class="row flex-column">
       <div id="three-column" class="col-12">
-        <div class="row d-flex flex-wrap-reverse flex-md-nowrap">
-          <div class="col-12 col-md-2 footer-mobile">
+        <div class="row d-flex flex-wrap-reverse flex-lg-nowrap">
+          <div class="col-12 col-lg-2 footer-mobile">
             <div class="row flex-column">
-              <div class="col-12 position-sticky top-0 z-1 bg-black text-white fw-bold border-bottom border-secondary">
+              <div class="col-12  bg-black text-white fw-bold border-bottom border-secondary">
                 <p class="fw-bold fs-4 mb-2 paragrafoHover">...</p>
                 <p class="my-1 paragrafoHover home">
                   <i class="bi bi-house-door fs-4 me-2"></i>Home
@@ -27,20 +27,20 @@
                 <p class="mt-1 mb-4 paragrafoHover">
                   <i class="bi bi-book fs-4 me-2"></i>La tua libreria
                 </p>
-                <p class="my-1 paragrafoHover d-none d-md-block">
+                <p class="my-1 paragrafoHover d-none d-lg-block">
                   <i class="bi bi-plus-lg fs-4 me-2"></i>Crea playlist
                 </p>
-                <p class="my-1 paragrafoHover d-none d-md-block">
+                <p class="my-1 paragrafoHover d-none d-lg-block">
                   <i class="bi bi-heart fs-4 me-2"></i>Brani che ti piacciono
                 </p>
-                <p class="my-1 mb-3 paragrafoHover d-none d-md-block">
+                <p class="my-1 mb-3 paragrafoHover d-none d-lg-block">
                   <i class="bi bi-bookmark fs-4 me-2"></i>I tuoi episodi
                 </p>
               </div>
-              <div id="left-col" class="col-12 bg-black pt-2 d-flex flex-column d-none d-md-block"></div>
+              <div id="left-col" class="col-12 bg-black pt-2 d-flex flex-column d-none d-lg-block"></div>
             </div>
           </div>
-          <div id="mid-col" class="col-12 col-md-8 text-white bg-secondary">
+          <div id="mid-col" class="col-12 col-lg-8 text-white bg-secondary">
             <div class="col d-flex align-items-center justify-content-between mt-3">
               <div class="d-flex align-items-center">
                 <button type="button" class="btn rounded-circle text-secondary me-3 p-1">
@@ -78,7 +78,7 @@
             <!--QUA VA SOSTITUITO CON I TEMPLATE-->
             <div id="target-mid-col"></div>
           </div>
-          <div class="col-2 bg-black d-none d-md-block">
+          <div class="col-2 bg-black d-none d-lg-block">
             <div id="right-col" class="col text-white">
               <div class="d-flex justify-content-between align-items-center mt-3">
                 <h6 class="pt-2 fw-bold">Attività amici</h6>
@@ -182,12 +182,12 @@
 
   <!-- TEMPLATE TARGET BUONASERA -->
   <template id="template-buonasera">
-    <div class="col-6 col-md-4 cardBrano">
+    <div class="col-6 col-lg-4 cardBrano">
       <div class="row g-0 align-items-center text-white mb-3">
-        <div class="col-md-3">
+        <div class="col-6 col-lg-5 col-xl-4 g-1">
           <img id="imgCard" src="" class="img-size" alt="..." />
         </div>
-        <div class="col-md-9">
+        <div class=" col-6 col-lg-7 col-xl-8 g-1">
           <div class="card-body">
             <h5 id="titleCard" class="card-title fw-bold"></h5>
           </div>
@@ -198,7 +198,7 @@
 
   <!-- TEMPLATE TARGET ALTRO DI CIO CHE TI PIACE -->
   <template id="template-CioCheTiPiace">
-    <div class="col-8 col-md-4 col-lg-3 col-xl-2 custom-card p-2 rounded m-2 cardBrano">
+    <div class="col-8 col-lg-4 col-lg-3 col-xl-2 custom-card p-2 rounded m-2 cardBrano">
       <div class="card custom-card">
         <img id="imgCard" src="" class="card-img-top rounded-bottom" alt="..." />
         <div class="card-body">
@@ -352,13 +352,13 @@
   </template>
   <!-- TEMPLATE TARGET MID-COLS -->
   <template id="template-mid-cols">
-    <div class="col container-fluid">
+    <div class="col container-fluid d-none d-lg-block">
       <div id="card" class="my-3 text-white">
         <div class="row">
-          <div class="col-md-3">
-            <img id="copertina" src="" class="img-fluid ms-4 d-block m-4" width="200px" />
+          <div class="col-lg-4">
+            <img id="copertina" src="" class="w-100 d-block"/>
           </div>
-          <div class="col-md-9">
+          <div class="col-lg-8">
             <div class="card-body pb-1">
               <div class="row justify-content-between mt-2 me-2 mb-0">
                 <p id="type" class="card-text col-3 fw-bold mb-0 text-capitalize"></p>
