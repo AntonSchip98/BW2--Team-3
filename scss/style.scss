@@ -167,7 +167,7 @@ $green: #1ed760;
   justify-content: center;
   gap: 1em;
 }
-.progress-bar {
+#progress-bar {
   height: 8px;
   border-radius: 10px;
   background-color: #ccc4;
@@ -176,7 +176,7 @@ $green: #1ed760;
 // .progress-bar:hover .progress {
 //   background-color: $green;
 // }
-.progress-bar:hover .progress::after {
+#progress-bar:hover .progress::after {
   content: "";
   position: absolute;
   width: 1em;

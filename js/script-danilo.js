@@ -1647,10 +1647,18 @@ audio.addEventListener("timeupdate", function () {
 
 let progressed = document.querySelector("#progressed");
 let progress_bar = document.querySelector("#progress-bar");
+// let audio = document.querySelector("#song");
+
 song.ontimeupdate = function (e) {
-  progressed.style.width =
-    Math.floor((song.currentTime * 100) / song.duration) + "%";
+  const duration = (audio.currentTime / audio.duration) * 100;
+  progressed.value = duration;
 };
+
 progress_bar.onclick = function (e) {
-  song.currentTime = (e.offsetX / progress_bar.offsetWidth) * song.duration;
+  audio.currentTime = (e.offsetX / progress_bar.offsetWidth) * audio.duration;
+  console.log(e.offsetX);
+  progressed.setAttribute(
+    "max",
+    Math.floor((audio.currentTime * 100) / audio.duration) + "%"
+  );
 };

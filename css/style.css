@@ -11989,13 +11989,13 @@ textarea.form-control-lg {
   gap: 1em;
 }
 
-.progress-bar {
+#progress-bar {
   height: 8px;
   border-radius: 10px;
   background-color: rgba(204, 204, 204, 0.2666666667);
 }
 
-.progress-bar:hover .progress::after {
+#progress-bar:hover .progress::after {
   content: "";
   position: absolute;
   width: 1em;
