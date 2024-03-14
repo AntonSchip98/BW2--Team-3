@@ -63,6 +63,25 @@ $green: #1ed760;
 
   #player {
     background-color: #181818;
+
+    .control-buttons {
+      #playIcon {
+        background-color: white;
+        display: inline-block;
+        color: #111;
+        border-radius: 50%;
+        &:hover {
+          background-color: $green;
+          transform: scale(1.1);
+        }
+      }
+
+      .sideIcon:hover {
+        color: $green;
+        cursor: pointer;
+        transform: scale(1.2);
+      }
+    }
   }
 }
 
@@ -119,17 +138,60 @@ $green: #1ed760;
   }
 }
 
-.following{
+.following {
   font-size: 10px;
 }
 
-#card-artista{
+#card-artista {
   background-color: #181818;
 }
+// pPLAYER
+.progress-controller {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: #999;
+}
+.control-buttons {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+}
 
-// RESPONSIVE
-.footer-mobile{
-  z-index: 2;
-  position: sticky;
-  bottom: 0;
+.progress-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+.progress-bar {
+  height: 8px;
+  border-radius: 10px;
+  background-color: #ccc4;
+}
+
+// .progress-bar:hover .progress {
+//   background-color: $green;
+// }
+.progress-bar:hover .progress::after {
+  content: "";
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  right: 0;
+  border-radius: 50%;
+  background-color: #ddd;
+  transform: translate(50%, calc(2px - 50%));
+}
+// #progressed {
+//   // -webkit-appearance: none;
+//   // appearance: none;
+//   background: $green;
+//   cursor: pointer;
+// }
+input[type="range"] {
+  accent-color: $green;
 }

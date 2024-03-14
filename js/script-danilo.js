@@ -19,13 +19,13 @@ let targetHome = document.querySelector("#target-mid-col");
 getCall(singerCasuale).then((brani) => {
   let primoBrano = brani.data[0];
 
-      // INIZIO MODIFICHE PER PRELEVARE LE CANZONI
-      brani.data.forEach(brano => {
-        let songs = brano.preview
-        console.log(songs);
-      });
-      // FINE MODIFICHE PER PRELEVARE LE CANZONI
-      
+  // INIZIO MODIFICHE PER PRELEVARE LE CANZONI
+  brani.data.forEach((brano) => {
+    let songs = brano.preview;
+    console.log(songs);
+  });
+  // FINE MODIFICHE PER PRELEVARE LE CANZONI
+
   let home = generaClone("#template-mid-cols");
 
   // CICLO FOR PER LE 6 CARD NELLA SEZIONE BUONASERA
@@ -206,7 +206,7 @@ getCall(singerCasuale).then((brani) => {
         }
       }
       window.addEventListener("resize", titleResponsive);
-      titleResponsive()
+      titleResponsive();
 
       artistCard.innerHTML = artisti(brano.title, brano.artist.name);
 
@@ -1600,3 +1600,57 @@ async function callSearch() {
     }, 250);
   }
 }
+
+let player = document.querySelector(".music-player");
+
+let playPause = document.querySelector("#playIcon"); //selettori per player
+let progresso = document.querySelector("#progresso");
+let durata = document.querySelector("#durata");
+let audio = document.querySelector("#song");
+let progressBar = document.querySelector("#progress-bar");
+
+let suona = false;
+playPause.addEventListener("click", function () {
+  if (!suona) {
+    song.play();
+    let element = document.querySelector(".bi-play-fill");
+    element.classList.remove("bi-play-fill");
+    element.classList.add("bi-pause-fill");
+    suona = true;
+  } else {
+    song.pause();
+    let element = document.querySelector(".bi-pause-fill");
+    element.classList.remove("bi-pause-fill");
+    element.classList.add("bi-play-fill");
+    suona = false;
+  }
+}); // tempo totale canzone
+audio.addEventListener("loadedmetadata", function () {
+  let durataSec = audio.duration;
+  let formatDurata = formatTime(durataSec);
+  durata.textContent = formatDurata;
+});
+
+function formatTime(timeInSeconds) {
+  let minutes = Math.floor(timeInSeconds / 60);
+  let seconds = Math.floor(timeInSeconds % 60);
+  return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+} //avanzamento barra
+
+audio.addEventListener("timeupdate", function () {
+  let currentTime = audio.currentTime;
+  let formatCurrentTime = formatTime(currentTime);
+  progresso.textContent = formatCurrentTime;
+  let progressPercent = (currentTime / audio.duration) * 100;
+  progressBar.style.width = progressPercent + "%";
+}); // Aggiorna anche il tempo corrente //var formatCurrentTime = formatTime(currentTimeInSeconds); //progresso.textContent = formatCurrentTime;
+
+let progressed = document.querySelector("#progressed");
+let progress_bar = document.querySelector("#progress-bar");
+song.ontimeupdate = function (e) {
+  progressed.style.width =
+    Math.floor((song.currentTime * 100) / song.duration) + "%";
+};
+progress_bar.onclick = function (e) {
+  song.currentTime = (e.offsetX / progress_bar.offsetWidth) * song.duration;
+};

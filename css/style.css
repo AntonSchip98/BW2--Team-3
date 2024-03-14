@@ -11893,6 +11893,21 @@ textarea.form-control-lg {
 #full-window #player {
   background-color: #181818;
 }
+#full-window #player .control-buttons #playIcon {
+  background-color: white;
+  display: inline-block;
+  color: #111;
+  border-radius: 50%;
+}
+#full-window #player .control-buttons #playIcon:hover {
+  background-color: #1ed760;
+  transform: scale(1.1);
+}
+#full-window #player .control-buttons .sideIcon:hover {
+  color: #1ed760;
+  cursor: pointer;
+  transform: scale(1.2);
+}
 
 .text-white.mb-3 {
   background-color: #353535;
@@ -11951,10 +11966,48 @@ textarea.form-control-lg {
   background-color: #181818;
 }
 
-.footer-mobile {
-  z-index: 2;
-  position: sticky;
-  bottom: 0;
+.progress-controller {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: #999;
+}
+
+.control-buttons {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+}
+
+.progress-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+.progress-bar {
+  height: 8px;
+  border-radius: 10px;
+  background-color: rgba(204, 204, 204, 0.2666666667);
+}
+
+.progress-bar:hover .progress::after {
+  content: "";
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  right: 0;
+  border-radius: 50%;
+  background-color: #ddd;
+  transform: translate(50%, calc(2px - 50%));
+}
+
+input[type=range] {
+  accent-color: #1ed760;
 }
 
 /*# sourceMappingURL=style.css.map */
