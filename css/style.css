@@ -12010,4 +12010,8 @@ input[type=range] {
   accent-color: #1ed760;
 }
 
+.bi-chevron-left, .bi-chevron-right {
+  padding: 0 6px;
+}
+
 /*# sourceMappingURL=style.css.map */
