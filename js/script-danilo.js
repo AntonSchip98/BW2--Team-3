@@ -19,6 +19,13 @@ let targetHome = document.querySelector("#target-mid-col");
 getCall(singerCasuale).then((brani) => {
   let primoBrano = brani.data[0];
 
+      // INIZIO MODIFICHE PER PRELEVARE LE CANZONI
+      brani.data.forEach(brano => {
+        let songs = brano.preview
+        console.log(songs);
+      });
+      // FINE MODIFICHE PER PRELEVARE LE CANZONI
+      
   let home = generaClone("#template-mid-cols");
 
   // CICLO FOR PER LE 6 CARD NELLA SEZIONE BUONASERA
