@@ -1864,13 +1864,17 @@ function formatTime(timeInSeconds) {
   return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 } //avanzamento barra
 
-audio.addEventListener("timeupdate", function () {
+audio.addEventListener('timeupdate', function() {
   let currentTime = audio.currentTime;
   let formatCurrentTime = formatTime(currentTime);
   progresso.textContent = formatCurrentTime;
+  let totalTime = audio.duration;
+  let remainingTime = totalTime - currentTime;
+  let formatRemainingTime = formatTime(remainingTime);
+  durata.textContent = formatRemainingTime;
   let progressPercent = (currentTime / audio.duration) * 100;
-  progressBar.style.width = progressPercent + "%";
-}); // Aggiorna anche il tempo corrente //var formatCurrentTime = formatTime(currentTimeInSeconds); //progresso.textContent = formatCurrentTime;
+  progressBar.style.width = progressPercent + '%';
+});
 
 let progressed = document.querySelector("#progressed");
 let progress_bar = document.querySelector("#progress-bar");
