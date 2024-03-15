@@ -17,7 +17,11 @@ let singerCasuale = singer[Math.floor(Math.random() * singer.length)];
 let audio = document.querySelector("#song");
 
 let targetHome = document.querySelector("#target-mid-col");
+let playerImg = document.querySelector("#playerImg");
+let playerArtist = document.querySelector(".playerArtist");
+let playerTitle = document.querySelector("#playerTitle");
 
+let canzoni = [];
 getCall(singerCasuale).then((brani) => {
   let primoBrano = brani.data[0];
   // INIZIO MODIFICHE PER PRELEVARE LE CANZONI
@@ -49,6 +53,7 @@ getCall(singerCasuale).then((brani) => {
       let cardBrano = colBrano.querySelector(".cardBrano");
 
       cardBrano.addEventListener("click", function () {
+        canzoni = [];
         if (brano.title == brano.album.title) {
           // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
           let id = brano.artist.id;
@@ -71,8 +76,8 @@ getCall(singerCasuale).then((brani) => {
             )
               .then((response) => response.json())
               .then((tracks) => {
-                let playerImg = document.querySelector("#playerImg");
                 tracks.data.forEach((track, indice) => {
+                  canzoni.push(track);
                   // GENERO IL CLONE DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                   let branoPopolare = generaClone("#template-branoPopolare");
                   // SELEZIONO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
@@ -84,11 +89,19 @@ getCall(singerCasuale).then((brani) => {
                   let trackImgBranoPopolare = branoPopolare.querySelector(
                     ".trackImgBranoPopolare"
                   );
+                  // MODIFICO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
+                  indiceDiv.innerHTML = indice + 1;
+                  titleTrack.innerHTML = track.title_short;
+                  rankTrack.innerHTML = track.rank;
+                  trackDuration.innerHTML = convertiSecondiConPuntini(
+                    track.duration
+                  );
+                  trackImgBranoPopolare.src =
+                    track.contributors[0].picture_small;
 
-                  let cardBranoPoplare = branoPopolare.querySelector(".branoPopolare");
-
+                  let cardBranoPoplare =
+                    branoPopolare.querySelector(".branoPopolare");
                   cardBranoPoplare.addEventListener("click", function () {
-                    playerChange(track);
                     playerImg.src = track.contributors[0].picture_small;
                     if (audio.paused) {
                       audio.play();
@@ -100,19 +113,16 @@ getCall(singerCasuale).then((brani) => {
 
                   playPause.addEventListener("click", toggleSongPlayState);
 
-                  // MODIFICO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
-                  indiceDiv.innerHTML = indice + 1;
-                  titleTrack.innerHTML = track.title_short;
-                  rankTrack.innerHTML = track.rank;
-                  trackDuration.innerHTML = convertiSecondiConPuntini(
-                    track.duration
-                  );
-                  trackImgBranoPopolare.src =
-                    track.contributors[0].picture_small;
                   // INSERISCO I TEMPLATE CLOANTI ONGI VOLTA NEL LORO ATRGET OVVERO UN DIV NEL TEMPLATE ARTIST
                   targetBranoPopolare.append(branoPopolare);
                 });
-              });
+                console.log(canzoni);
+                playerChange(canzoni[indiceCanzone]);
+                playerImg.src =
+                  canzoni[indiceCanzone].contributors[0].picture_small;
+                });
+                console.log(playerImg.src);
+            
             targetHome.append(artistPage);
           });
         } else {
@@ -145,7 +155,6 @@ getCall(singerCasuale).then((brani) => {
                 convertiSecondiConScritte(album.duration) +
                 ".";
             }
-            
 
             // INSERISCO IL TEMPLATE DEL CLONE DELLA PAGINA ALBUM
             targetHome.append(albumPage);
@@ -180,19 +189,20 @@ getCall(singerCasuale).then((brani) => {
                 track.duration
               );
 
-              let cardBranoPoplare = albumPageBrano.querySelector(".branoPopolare");
+              let cardBranoPoplare =
+                albumPageBrano.querySelector(".branoPopolare");
 
-                  cardBranoPoplare.addEventListener("click", function () {
-                    playerChange(track);
-                    if (audio.paused) {
-                      audio.play();
-                      let element = document.querySelector(".bi-play-fill");
-                      element.classList.remove("bi-play-fill");
-                      element.classList.add("bi-pause-fill");
-                    }
-                  });
+              cardBranoPoplare.addEventListener("click", function () {
+                playerChange(track);
+                if (audio.paused) {
+                  audio.play();
+                  let element = document.querySelector(".bi-play-fill");
+                  element.classList.remove("bi-play-fill");
+                  element.classList.add("bi-pause-fill");
+                }
+              });
 
-                  playPause.addEventListener("click", toggleSongPlayState);
+              playPause.addEventListener("click", toggleSongPlayState);
 
               // FACCIO L'APPEND DEL ELMENTI DEL CLONE
               targetAlbumPageBrano.append(albumPageBrano);
@@ -836,10 +846,6 @@ getCall(singerCasuale).then((brani) => {
     targetBrani.append(p);
   });
 
-  // INIZIAMO LA PARTE DEL PLAYER
-  let playerImg = document.querySelector("#playerImg");
-  let playerArtist = document.querySelector(".playerArtist");
-  let playerTitle = document.querySelector("#playerTitle");
   playerChange(primoBrano);
 
   function playerChange(brano) {
@@ -1669,9 +1675,7 @@ homeIcon.addEventListener("click", function () {
     });
 
     // INIZIAMO LA PARTE DEL PLAYER
-    let playerImg = document.querySelector("#playerImg");
-    let playerArtist = document.querySelector(".playerArtist");
-    let playerTitle = document.querySelector("#playerTitle");
+
     playerChange(primoBrano);
 
     function playerChange(brano) {
@@ -1713,8 +1717,6 @@ async function callSearch() {
       h3.innerHTML = "Risultati più rilevanti";
       h3.classList.add("mt-3", "ms-4", "fw-bold");
       targetHome.append(h3);
-      let playerArtist = document.querySelector(".playerArtist");
-
       function playerChange(brano) {
         if (brano.title == brano.album.title) {
           playerImg.src = brano.artist.picture_small;
@@ -2175,20 +2177,16 @@ let durata = document.querySelector("#durata");
 let progressBar = document.querySelector("#progress-bar");
 let progressed = document.querySelector("#progressed");
 
-let playerImg = document.querySelector("#playerImg");
-let playerArtist = document.querySelector(".playerArtist");
-let playerTitle = document.querySelector("#playerTitle");
-
 playPause.addEventListener("click", toggleSongPlayState); // tempo totale canzone
 
-function toggleSongPlayState(){
+function toggleSongPlayState() {
   if (audio.paused) {
-    song.play();
+    audio.play();
     let element = document.querySelector(".bi-play-fill");
     element.classList.remove("bi-play-fill");
     element.classList.add("bi-pause-fill");
   } else {
-    song.pause();
+    audio.pause();
     let element = document.querySelector(".bi-pause-fill");
     element.classList.remove("bi-pause-fill");
     element.classList.add("bi-play-fill");
@@ -2208,15 +2206,13 @@ function formatTime(timeInSeconds) {
   return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 } //avanzamento barra
 
-
-
 audio.addEventListener("timeupdate", function () {
-  console.log('timeupdate');
+  console.log("timeupdate");
   let currentTime = audio.currentTime || 0;
   let formatCurrentTime = formatTime(currentTime);
   progresso.textContent = formatCurrentTime;
   let totalTime = audio.duration || 0;
-  let remainingTime = totalTime - currentTime ;
+  let remainingTime = totalTime - currentTime;
   let formatRemainingTime = formatTime(remainingTime);
   durata.textContent = formatRemainingTime;
   let progressPercent = (currentTime / audio.duration) * 100 || 0;
@@ -2282,8 +2278,6 @@ let prec = document.querySelector("#prec");
 let next = document.querySelector("#next");
 let indiceCanzone = 0;
 
-let canzoni = [];
-
 function playCurrent() {
   playerArtist.innerHTML = canzoni[indiceCanzone].artist.name;
   playerTitle.innerHTML = canzoni[indiceCanzone].title;
@@ -2293,7 +2287,7 @@ function playCurrent() {
   } else {
     playerImg.src = canzoni[indiceCanzone].album.cover_small;
   }
-  audio.src = canzoni[indiceCanzone];
+  audio.src = canzoni[indiceCanzone].preview;
   audio.play();
 }
 
@@ -2301,10 +2295,16 @@ function playCurrent() {
 prec.addEventListener("click", function () {
   indiceCanzone = (indiceCanzone - 1 + canzoni.length) % canzoni.length;
   playCurrent();
+  let element = document.querySelector(".bi-play-fill");
+  element.classList.remove("bi-play-fill");
+  element.classList.add("bi-pause-fill");
 });
 
 // Gestione del click sul pulsante "next"
 next.addEventListener("click", function () {
   indiceCanzone = (indiceCanzone + 1) % canzoni.length;
   playCurrent();
+  let element = document.querySelector(".bi-play-fill");
+  element.classList.remove("bi-play-fill");
+  element.classList.add("bi-pause-fill");
 });
