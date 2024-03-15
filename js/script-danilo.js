@@ -14,6 +14,8 @@ import {
 let singer = ["geolier", "annalisa", "angelina", "salmo", "gue"];
 let singerCasuale = singer[Math.floor(Math.random() * singer.length)];
 
+let audio = document.querySelector("#song");
+
 let targetHome = document.querySelector("#target-mid-col");
 
 getCall(singerCasuale).then((brani) => {
@@ -70,7 +72,6 @@ getCall(singerCasuale).then((brani) => {
               .then((response) => response.json())
               .then((tracks) => {
                 let playerImg = document.querySelector("#playerImg");
-                let songBuonasera = false;
                 tracks.data.forEach((track, indice) => {
                   // GENERO IL CLONE DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                   let branoPopolare = generaClone("#template-branoPopolare");
@@ -91,33 +92,15 @@ getCall(singerCasuale).then((brani) => {
                   cardBranoPoplare.addEventListener("click", function () {
                     playerChange(track);
                     playerImg.src = track.contributors[0].picture_small;
-                    if (!songBuonasera) {
-                      song.play();
+                    if (audio.paused) {
+                      audio.play();
                       let element = document.querySelector(".bi-play-fill");
                       element.classList.remove("bi-play-fill");
                       element.classList.add("bi-pause-fill");
-                      songBuonasera = true;
                     }
-                    console.log(songBuonasera);
                   });
 
-                  playPause.addEventListener("click", function () {
-                    console.log(songBuonasera);
-                    if (songBuonasera) {
-                      songBuonasera = false;
-                      song.pause();
-                      let element = document.querySelector(".bi-pause-fill");
-                      element.classList.remove("bi-pause-fill");
-                      element.classList.add("bi-play-fill");
-                    } else {
-                      song.play();
-                      let element = document.querySelector(".bi-play-fill");
-                      element.classList.remove("bi-play-fill");
-                      element.classList.add("bi-pause-fill");
-                      songBuonasera = true;
-                      
-                    }
-                  });
+                  playPause.addEventListener("click", toggleSongPlayState);
 
                   // MODIFICO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                   indiceDiv.innerHTML = indice + 1;
@@ -2174,30 +2157,31 @@ async function callSearch() {
 let playPause = document.querySelector("#playIcon"); //selettori per player
 let progresso = document.querySelector("#progresso");
 let durata = document.querySelector("#durata");
-let audio = document.querySelector("#song");
 let progressBar = document.querySelector("#progress-bar");
+let progressed = document.querySelector("#progressed");
 
 let playerImg = document.querySelector("#playerImg");
 let playerArtist = document.querySelector(".playerArtist");
 let playerTitle = document.querySelector("#playerTitle");
 
-let suona = false;
-playPause.addEventListener("click", function () {
-  if (!suona) {
+playPause.addEventListener("click", toggleSongPlayState); // tempo totale canzone
+
+function toggleSongPlayState(){
+  if (audio.paused) {
     song.play();
     let element = document.querySelector(".bi-play-fill");
     element.classList.remove("bi-play-fill");
     element.classList.add("bi-pause-fill");
-    suona = true;
   } else {
     song.pause();
     let element = document.querySelector(".bi-pause-fill");
     element.classList.remove("bi-pause-fill");
     element.classList.add("bi-play-fill");
-    suona = false;
   }
-}); // tempo totale canzone
-audio.addEventListener("loadedmetadata", function () {
+}
+
+//faccio sì che l'utente veda la durata totale del brano
+audio.addEventListener("canplay", function () {
   let durataSec = audio.duration;
   let formatDurata = formatTime(durataSec);
   durata.textContent = formatDurata;
@@ -2209,24 +2193,33 @@ function formatTime(timeInSeconds) {
   return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 } //avanzamento barra
 
-let progressed = document.querySelector("#progressed");
-let progress_bar = document.querySelector("#progress-bar");
+
 
 audio.addEventListener("timeupdate", function () {
-  let currentTime = audio.currentTime;
+  console.log('timeupdate');
+  let currentTime = audio.currentTime || 0;
   let formatCurrentTime = formatTime(currentTime);
   progresso.textContent = formatCurrentTime;
-  let totalTime = audio.duration;
-  let remainingTime = totalTime - currentTime;
+  let totalTime = audio.duration || 0;
+  let remainingTime = totalTime - currentTime ;
   let formatRemainingTime = formatTime(remainingTime);
   durata.textContent = formatRemainingTime;
-  let progressPercent = (currentTime / audio.duration) * 100;
+  let progressPercent = (currentTime / audio.duration) * 100 || 0;
   progressBar.style.width = progressPercent + "%";
   progressed.value = progressPercent;
+
+  console.log(
+    currentTime,
+    formatCurrentTime,
+    totalTime,
+    remainingTime,
+    formatRemainingTime,
+    progressPercent
+  );
 });
 
-progress_bar.onclick = function (e) {
-  audio.currentTime = (e.offsetX / progress_bar.offsetWidth) * audio.duration;
+progressBar.onclick = function (e) {
+  audio.currentTime = (e.offsetX / progressBar.offsetWidth) * audio.duration;
   console.log(e.offsetX);
   progressed.setAttribute(
     "max",
