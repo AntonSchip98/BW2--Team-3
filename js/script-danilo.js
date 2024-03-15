@@ -17,12 +17,10 @@ let singerCasuale = singer[Math.floor(Math.random() * singer.length)];
 let targetHome = document.querySelector("#target-mid-col");
 
 getCall(singerCasuale).then((brani) => {
-  console.log(progressed.value);
   let primoBrano = brani.data[0];
-  console.log(primoBrano);
   // INIZIO MODIFICHE PER PRELEVARE LE CANZONI
   brani.data.forEach((brano) => {
-    canzoni.push(brano)
+    canzoni.push(brano);
   });
   // FINE MODIFICHE PER PRELEVARE LE CANZONI
 
@@ -49,7 +47,6 @@ getCall(singerCasuale).then((brani) => {
       let cardBrano = colBrano.querySelector(".cardBrano");
 
       cardBrano.addEventListener("click", function () {
-        playerChange(brano)
         if (brano.title == brano.album.title) {
           // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
           let id = brano.artist.id;
@@ -57,12 +54,14 @@ getCall(singerCasuale).then((brani) => {
             targetHome.innerHTML = "";
             let artistPage = generaClone("#template-artistPage");
             let artistName = artistPage.querySelector("#artistName");
+            let coverArtist = artistPage.querySelector(".coverArtist");
             let fanNumber = artistPage.querySelector("#fanNumber");
             let targetBranoPopolare = artistPage.querySelector(
               "#target-branoPopolare"
             );
 
             artistName.innerHTML = artista.name;
+            coverArtist.style.backgroundImage = `url(${brano.artist.picture_xl}`;
             fanNumber.innerHTML = artista.nb_fan + " fan";
 
             fetch(
@@ -70,6 +69,8 @@ getCall(singerCasuale).then((brani) => {
             )
               .then((response) => response.json())
               .then((tracks) => {
+                let playerImg = document.querySelector("#playerImg");
+                let songBuonasera = false;
                 tracks.data.forEach((track, indice) => {
                   // GENERO IL CLONE DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                   let branoPopolare = generaClone("#template-branoPopolare");
@@ -78,10 +79,45 @@ getCall(singerCasuale).then((brani) => {
                   let titleTrack = branoPopolare.querySelector(".titleTrack");
                   let rankTrack = branoPopolare.querySelector(".rankTrack");
                   let trackDuration =
-                    branoPopolare.querySelector(".tarckDuration");
+                    branoPopolare.querySelector(".trackDuration");
                   let trackImgBranoPopolare = branoPopolare.querySelector(
                     ".trackImgBranoPopolare"
                   );
+
+                  let cardBranoPoplare =
+                    branoPopolare.querySelector(".branoPopolare");
+
+                  
+                  cardBranoPoplare.addEventListener("click", function () {
+                    playerChange(track);
+                    playerImg.src = track.contributors[0].picture_small;
+                    if (!songBuonasera) {
+                      song.play();
+                      let element = document.querySelector(".bi-play-fill");
+                      element.classList.remove("bi-play-fill");
+                      element.classList.add("bi-pause-fill");
+                      songBuonasera = true;
+                    }
+                    console.log(songBuonasera);
+                  });
+
+                  playPause.addEventListener("click", function () {
+                    console.log(songBuonasera);
+                    if (songBuonasera) {
+                      songBuonasera = false;
+                      song.pause();
+                      let element = document.querySelector(".bi-pause-fill");
+                      element.classList.remove("bi-pause-fill");
+                      element.classList.add("bi-play-fill");
+                    } else {
+                      song.play();
+                      let element = document.querySelector(".bi-play-fill");
+                      element.classList.remove("bi-play-fill");
+                      element.classList.add("bi-pause-fill");
+                      songBuonasera = true;
+                      
+                    }
+                  });
 
                   // MODIFICO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                   indiceDiv.innerHTML = indice + 1;
@@ -142,7 +178,6 @@ getCall(singerCasuale).then((brani) => {
               // SELEZIONO GLI ELMENTI DEL CLONE
               let titleAlbumTrack =
                 albumPageBrano.querySelector(".titleAlbumTrack");
-              console.log(titleAlbumTrack);
               let nameArtistAlbumTrack = albumPageBrano.querySelector(
                 ".nameArtistAlbumTrack"
               );
@@ -214,8 +249,8 @@ getCall(singerCasuale).then((brani) => {
       // ADD EVENT LISTENER CON SELEZIONE DI CARDBRANO DA RENDERE EXPORT
       let cardBrano = colBrano.querySelector(".cardBrano");
       cardBrano.addEventListener("click", function () {
-        playerChange(brano)
-        
+        playerChange(brano);
+
         if (brano.title == brano.album.title) {
           // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
           let id = brano.artist.id;
@@ -223,12 +258,14 @@ getCall(singerCasuale).then((brani) => {
             targetHome.innerHTML = "";
             let artistPage = generaClone("#template-artistPage");
             let artistName = artistPage.querySelector("#artistName");
+            let coverArtist = artistPage.querySelector(".coverArtist");
             let fanNumber = artistPage.querySelector("#fanNumber");
             let targetBranoPopolare = artistPage.querySelector(
               "#target-branoPopolare"
             );
 
             artistName.innerHTML = artista.name;
+            coverArtist.style.backgroundImage = `url(${brano.artist.picture_xl}`;
             fanNumber.innerHTML = artista.nb_fan + " fan";
 
             fetch(
@@ -244,7 +281,7 @@ getCall(singerCasuale).then((brani) => {
                   let titleTrack = branoPopolare.querySelector(".titleTrack");
                   let rankTrack = branoPopolare.querySelector(".rankTrack");
                   let trackDuration =
-                    branoPopolare.querySelector(".tarckDuration");
+                    branoPopolare.querySelector(".trackDuration");
                   let trackImgBranoPopolare = branoPopolare.querySelector(
                     ".trackImgBranoPopolare"
                   );
@@ -333,8 +370,6 @@ getCall(singerCasuale).then((brani) => {
           });
         }
       });
-
-      console.log(brano.artist.name);
       let target = home.querySelector("#targetCioCheTiPiace");
       target.append(colBrano);
     }
@@ -370,7 +405,7 @@ getCall(singerCasuale).then((brani) => {
         let cardBrano = colBrano.querySelector(".cardBrano");
 
         cardBrano.addEventListener("click", function () {
-          playerChange(brano)
+          playerChange(brano);
           if (brano.title == brano.album.title) {
             // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
             let id = brano.artist.id;
@@ -378,12 +413,14 @@ getCall(singerCasuale).then((brani) => {
               targetHome.innerHTML = "";
               let artistPage = generaClone("#template-artistPage");
               let artistName = artistPage.querySelector("#artistName");
+              let coverArtist = artistPage.querySelector(".coverArtist");
               let fanNumber = artistPage.querySelector("#fanNumber");
               let targetBranoPopolare = artistPage.querySelector(
                 "#target-branoPopolare"
               );
 
               artistName.innerHTML = artista.name;
+              coverArtist.style.backgroundImage = `url(${brano.artist.picture_xl}`;
               fanNumber.innerHTML = artista.nb_fan + " fan";
 
               fetch(
@@ -399,7 +436,7 @@ getCall(singerCasuale).then((brani) => {
                     let titleTrack = branoPopolare.querySelector(".titleTrack");
                     let rankTrack = branoPopolare.querySelector(".rankTrack");
                     let trackDuration =
-                      branoPopolare.querySelector(".tarckDuration");
+                      branoPopolare.querySelector(".trackDuration");
                     let trackImgBranoPopolare = branoPopolare.querySelector(
                       ".trackImgBranoPopolare"
                     );
@@ -518,7 +555,7 @@ getCall(singerCasuale).then((brani) => {
         let cardBrano = colBrano.querySelector(".cardBrano");
 
         cardBrano.addEventListener("click", function () {
-          playerChange(brano)
+          playerChange(brano);
           if (brano.title == brano.album.title) {
             // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
             let id = brano.artist.id;
@@ -547,7 +584,7 @@ getCall(singerCasuale).then((brani) => {
                     let titleTrack = branoPopolare.querySelector(".titleTrack");
                     let rankTrack = branoPopolare.querySelector(".rankTrack");
                     let trackDuration =
-                      branoPopolare.querySelector(".tarckDuration");
+                      branoPopolare.querySelector(".trackDuration");
                     let trackImgBranoPopolare = branoPopolare.querySelector(
                       ".trackImgBranoPopolare"
                     );
@@ -679,7 +716,7 @@ getCall(singerCasuale).then((brani) => {
 
     // ADD EVENT LISTENER CON SELEZIONE DI CARDBRANO DA RENDERE EXPORT IN REALTA QUESTO COMMENTO TI SERVE SOLO PER TROVARE ANCHE QUESTO ADD EVENT LISTENER CHE HO MESSO SUL P NELLA LEFT COL MA FUNZIONA SU UN P NON SU CARD BRANO
     p.addEventListener("click", function () {
-      playerChange(brano)
+      playerChange(brano);
       if (brano.title == brano.album.title) {
         // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
         let id = brano.artist.id;
@@ -687,12 +724,14 @@ getCall(singerCasuale).then((brani) => {
           targetHome.innerHTML = "";
           let artistPage = generaClone("#template-artistPage");
           let artistName = artistPage.querySelector("#artistName");
+          let coverArtist = artistPage.querySelector(".coverArtist");
           let fanNumber = artistPage.querySelector("#fanNumber");
           let targetBranoPopolare = artistPage.querySelector(
             "#target-branoPopolare"
           );
 
           artistName.innerHTML = artista.name;
+          coverArtist.style.backgroundImage = `url(${brano.artist.picture_xl}`;
           fanNumber.innerHTML = artista.nb_fan + " fan";
 
           fetch(
@@ -708,7 +747,7 @@ getCall(singerCasuale).then((brani) => {
                 let titleTrack = branoPopolare.querySelector(".titleTrack");
                 let rankTrack = branoPopolare.querySelector(".rankTrack");
                 let trackDuration =
-                  branoPopolare.querySelector(".tarckDuration");
+                  branoPopolare.querySelector(".trackDuration");
                 let trackImgBranoPopolare = branoPopolare.querySelector(
                   ".trackImgBranoPopolare"
                 );
@@ -803,21 +842,21 @@ getCall(singerCasuale).then((brani) => {
   let playerImg = document.querySelector("#playerImg");
   let playerArtist = document.querySelector(".playerArtist");
   let playerTitle = document.querySelector("#playerTitle");
-  playerChange(primoBrano)
-  
+  playerChange(primoBrano);
+
   function playerChange(brano) {
     if (brano.title == brano.album.title) {
       playerImg.src = brano.artist.picture_small;
     } else {
       playerImg.src = brano.album.cover_small;
     }
-  
+
     playerTitle.innerHTML = brano.title;
-  
+
     playerArtist.innerHTML = brano.artist.name;
-  
-    let audio = document.querySelector("#song")
-    audio.src = brano.preview
+
+    let audio = document.querySelector("#song");
+    audio.src = brano.preview;
   }
   targetHome.append(home);
 });
@@ -842,31 +881,31 @@ homeIcon.addEventListener("click", function () {
       console.log(songs);
     });
     // FINE MODIFICHE PER PRELEVARE LE CANZONI
-  
+
     let home = generaClone("#template-mid-cols");
-  
+
     // CICLO FOR PER LE 6 CARD NELLA SEZIONE BUONASERA
     cicloBuonasera();
     function cicloBuonasera() {
       for (let i = 1; i < 7 && i < brani.data.length; i++) {
         const brano = brani.data[i];
-  
+
         let colBrano = generaClone("#template-buonasera");
-  
+
         let { imgCard, titleCard } = selezioneElementiClone(colBrano);
-  
+
         if (brano.title == brano.album.title) {
           imgCard.src = brano.artist.picture_medium;
         } else {
           imgCard.src = brano.album.cover_medium;
         }
         titleCard.innerHTML = brano.title;
-  
+
         // ADD EVENT LISTENER CON SELEZIONE DI CARDBRANO DA RENDERE EXPORT
         let cardBrano = colBrano.querySelector(".cardBrano");
-  
+
         cardBrano.addEventListener("click", function () {
-          playerChange(brano)
+          playerChange(brano);
           if (brano.title == brano.album.title) {
             // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
             let id = brano.artist.id;
@@ -874,14 +913,16 @@ homeIcon.addEventListener("click", function () {
               targetHome.innerHTML = "";
               let artistPage = generaClone("#template-artistPage");
               let artistName = artistPage.querySelector("#artistName");
+              let coverArtist = artistPage.querySelector(".coverArtist");
               let fanNumber = artistPage.querySelector("#fanNumber");
               let targetBranoPopolare = artistPage.querySelector(
                 "#target-branoPopolare"
               );
-  
+
               artistName.innerHTML = artista.name;
+              coverArtist.style.backgroundImage = `url(${brano.artist.picture_xl}`;
               fanNumber.innerHTML = artista.nb_fan + " fan";
-  
+
               fetch(
                 `https://striveschool-api.herokuapp.com/api/deezer/artist/${id}/top?limit=50`
               )
@@ -895,11 +936,11 @@ homeIcon.addEventListener("click", function () {
                     let titleTrack = branoPopolare.querySelector(".titleTrack");
                     let rankTrack = branoPopolare.querySelector(".rankTrack");
                     let trackDuration =
-                      branoPopolare.querySelector(".tarckDuration");
+                      branoPopolare.querySelector(".trackDuration");
                     let trackImgBranoPopolare = branoPopolare.querySelector(
                       ".trackImgBranoPopolare"
                     );
-  
+
                     // MODIFICO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                     indiceDiv.innerHTML = indice + 1;
                     titleTrack.innerHTML = track.title_short;
@@ -924,7 +965,8 @@ homeIcon.addEventListener("click", function () {
               let albumPage = generaClone("#template-albumPage");
               // SELEZIONO GLI ELEMENTI DEL CLONE DELLA PAGINA ALBUM
               let titleAlbum = albumPage.querySelector(".titleAlbum");
-              let didascaliaAlbumP = albumPage.querySelector(".didascaliaAlbum");
+              let didascaliaAlbumP =
+                albumPage.querySelector(".didascaliaAlbum");
               let albumImg = albumPage.querySelector(".albumImg");
               let artistImgAlbumPage = albumPage.querySelector(
                 ".artistImgAlbumPage"
@@ -947,7 +989,7 @@ homeIcon.addEventListener("click", function () {
               }
               // INSERISCO IL TEMPLATE DEL CLONE DELLA PAGINA ALBUM
               targetHome.append(albumPage);
-  
+
               let targetAlbumPageBrano = document.querySelector(
                 "#target-templateBranoAlbum"
               );
@@ -955,7 +997,7 @@ homeIcon.addEventListener("click", function () {
                 // SELEZIONO IL TARGET DOVE FARO L'APPEND DEL CLONE
                 // GENERO IL CLONE DEL TEMPLATE DEI BRANI DELL'ALBUM SELEZIONATO CHE CLOENRO TANTE VOLTE QUANTE SONO LE TRACCE DELL'ALBUM
                 let albumPageBrano = generaClone("#template-BranoAlbum");
-  
+
                 // SELEZIONO GLI ELMENTI DEL CLONE
                 let titleAlbumTrack =
                   albumPageBrano.querySelector(".titleAlbumTrack");
@@ -977,7 +1019,7 @@ homeIcon.addEventListener("click", function () {
                 durationAlbumTrack.innerHTML = convertiSecondiConPuntini(
                   track.duration
                 );
-  
+
                 // FACCIO L'APPEND DEL ELMENTI DEL CLONE
                 targetAlbumPageBrano.append(albumPageBrano);
               });
@@ -988,34 +1030,34 @@ homeIcon.addEventListener("click", function () {
         target.append(colBrano);
       }
     }
-  
+
     // CICLO FOR PER LE 5 CARD NELLA SEZIONE ALTRO DI CIO CHE TI PIACE
     cicloAltroDiCioCheTiPiace();
     function cicloAltroDiCioCheTiPiace() {
       for (let i = 1; i < 6 && i < brani.data.length; i++) {
         const brano = brani.data[i];
-  
+
         let colBrano = generaClone("#template-CioCheTiPiace");
-  
+
         let { imgCard, titleCard } = selezioneElementiClone(colBrano);
-  
+
         let artistCard = colBrano.querySelector("#artistCard");
-  
+
         if (brano.title == brano.album.title) {
           imgCard.src = brano.artist.picture_medium;
         } else {
           imgCard.src = brano.album.cover_medium;
         }
-  
+
         titleCard.innerHTML = brano.title;
-  
+
         // RESPONSIVE PER IL TITOLO
         const breakpoint = 1200;
-  
+
         function checkBreakpoint() {
           return window.innerWidth > breakpoint;
         }
-  
+
         function titleResponsive() {
           if (checkBreakpoint() && brano.title.length > 9) {
             titleCard.innerHTML = brano.title.slice(0, 10) + "...";
@@ -1025,14 +1067,14 @@ homeIcon.addEventListener("click", function () {
         }
         window.addEventListener("resize", titleResponsive);
         titleResponsive();
-  
+
         artistCard.innerHTML = artisti(brano.title, brano.artist.name);
-  
+
         // ADD EVENT LISTENER CON SELEZIONE DI CARDBRANO DA RENDERE EXPORT
         let cardBrano = colBrano.querySelector(".cardBrano");
         cardBrano.addEventListener("click", function () {
-          playerChange(brano)
-          
+          playerChange(brano);
+
           if (brano.title == brano.album.title) {
             // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
             let id = brano.artist.id;
@@ -1040,14 +1082,16 @@ homeIcon.addEventListener("click", function () {
               targetHome.innerHTML = "";
               let artistPage = generaClone("#template-artistPage");
               let artistName = artistPage.querySelector("#artistName");
+              let coverArtist = artistPage.querySelector(".coverArtist");
               let fanNumber = artistPage.querySelector("#fanNumber");
               let targetBranoPopolare = artistPage.querySelector(
                 "#target-branoPopolare"
               );
-  
+
               artistName.innerHTML = artista.name;
+              coverArtist.style.backgroundImage = `url(${brano.artist.picture_xl}`;
               fanNumber.innerHTML = artista.nb_fan + " fan";
-  
+
               fetch(
                 `https://striveschool-api.herokuapp.com/api/deezer/artist/${id}/top?limit=50`
               )
@@ -1061,11 +1105,11 @@ homeIcon.addEventListener("click", function () {
                     let titleTrack = branoPopolare.querySelector(".titleTrack");
                     let rankTrack = branoPopolare.querySelector(".rankTrack");
                     let trackDuration =
-                      branoPopolare.querySelector(".tarckDuration");
+                      branoPopolare.querySelector(".trackDuration");
                     let trackImgBranoPopolare = branoPopolare.querySelector(
                       ".trackImgBranoPopolare"
                     );
-  
+
                     // MODIFICO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                     indiceDiv.innerHTML = indice + 1;
                     titleTrack.innerHTML = track.title_short;
@@ -1090,7 +1134,8 @@ homeIcon.addEventListener("click", function () {
               let albumPage = generaClone("#template-albumPage");
               // SELEZIONO GLI ELEMENTI DEL CLONE DELLA PAGINA ALBUM
               let titleAlbum = albumPage.querySelector(".titleAlbum");
-              let didascaliaAlbumP = albumPage.querySelector(".didascaliaAlbum");
+              let didascaliaAlbumP =
+                albumPage.querySelector(".didascaliaAlbum");
               let albumImg = albumPage.querySelector(".albumImg");
               let artistImgAlbumPage = albumPage.querySelector(
                 ".artistImgAlbumPage"
@@ -1113,7 +1158,7 @@ homeIcon.addEventListener("click", function () {
               }
               // INSERISCO IL TEMPLATE DEL CLONE DELLA PAGINA ALBUM
               targetHome.append(albumPage);
-  
+
               let targetAlbumPageBrano = document.querySelector(
                 "#target-templateBranoAlbum"
               );
@@ -1121,7 +1166,7 @@ homeIcon.addEventListener("click", function () {
                 // SELEZIONO IL TARGET DOVE FARO L'APPEND DEL CLONE
                 // GENERO IL CLONE DEL TEMPLATE DEI BRANI DELL'ALBUM SELEZIONATO CHE CLOENRO TANTE VOLTE QUANTE SONO LE TRACCE DELL'ALBUM
                 let albumPageBrano = generaClone("#template-BranoAlbum");
-  
+
                 // SELEZIONO GLI ELMENTI DEL CLONE
                 let titleAlbumTrack =
                   albumPageBrano.querySelector(".titleAlbumTrack");
@@ -1143,20 +1188,20 @@ homeIcon.addEventListener("click", function () {
                 durationAlbumTrack.innerHTML = convertiSecondiConPuntini(
                   track.duration
                 );
-  
+
                 // FACCIO L'APPEND DEL ELMENTI DEL CLONE
                 targetAlbumPageBrano.append(albumPageBrano);
               });
             });
           }
         });
-  
+
         console.log(brano.artist.name);
         let target = home.querySelector("#targetCioCheTiPiace");
         target.append(colBrano);
       }
     }
-  
+
     // CICLO FOREACH PER LO SHOWMORE DI TUTTE LE CARD NELLA SEZIONE ALTRO DI CIO CHE TI PIACE
     let isClicked = false;
     let ShowMoreP = home.querySelector("#ShowMoreP");
@@ -1169,25 +1214,25 @@ homeIcon.addEventListener("click", function () {
         brani.data.shift();
         brani.data.forEach((brano) => {
           let colBrano = generaClone("#template-CioCheTiPiace");
-  
+
           let { imgCard, titleCard } = selezioneElementiClone(colBrano);
-  
+
           let artistCard = colBrano.querySelector("#artistCard");
-  
+
           if (brano.title == brano.album.title) {
             imgCard.src = brano.artist.picture_medium;
           } else {
             imgCard.src = brano.album.cover_medium;
           }
-  
+
           titleCard.innerHTML = brano.title;
-  
+
           artistCard.innerHTML = artisti(brano.title, brano.artist.name);
-  
+
           let cardBrano = colBrano.querySelector(".cardBrano");
-  
+
           cardBrano.addEventListener("click", function () {
-            playerChange(brano)
+            playerChange(brano);
             if (brano.title == brano.album.title) {
               // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
               let id = brano.artist.id;
@@ -1199,10 +1244,10 @@ homeIcon.addEventListener("click", function () {
                 let targetBranoPopolare = artistPage.querySelector(
                   "#target-branoPopolare"
                 );
-  
+
                 artistName.innerHTML = artista.name;
                 fanNumber.innerHTML = artista.nb_fan + " fan";
-  
+
                 fetch(
                   `https://striveschool-api.herokuapp.com/api/deezer/artist/${id}/top?limit=50`
                 )
@@ -1210,17 +1255,20 @@ homeIcon.addEventListener("click", function () {
                   .then((tracks) => {
                     tracks.data.forEach((track, indice) => {
                       // GENERO IL CLONE DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
-                      let branoPopolare = generaClone("#template-branoPopolare");
+                      let branoPopolare = generaClone(
+                        "#template-branoPopolare"
+                      );
                       // SELEZIONO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                       let indiceDiv = branoPopolare.querySelector(".indice");
-                      let titleTrack = branoPopolare.querySelector(".titleTrack");
+                      let titleTrack =
+                        branoPopolare.querySelector(".titleTrack");
                       let rankTrack = branoPopolare.querySelector(".rankTrack");
                       let trackDuration =
-                        branoPopolare.querySelector(".tarckDuration");
+                        branoPopolare.querySelector(".trackDuration");
                       let trackImgBranoPopolare = branoPopolare.querySelector(
                         ".trackImgBranoPopolare"
                       );
-  
+
                       // MODIFICO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                       indiceDiv.innerHTML = indice + 1;
                       titleTrack.innerHTML = track.title_short;
@@ -1269,7 +1317,7 @@ homeIcon.addEventListener("click", function () {
                 }
                 // INSERISCO IL TEMPLATE DEL CLONE DELLA PAGINA ALBUM
                 targetHome.append(albumPage);
-  
+
                 let targetAlbumPageBrano = document.querySelector(
                   "#target-templateBranoAlbum"
                 );
@@ -1277,7 +1325,7 @@ homeIcon.addEventListener("click", function () {
                   // SELEZIONO IL TARGET DOVE FARO L'APPEND DEL CLONE
                   // GENERO IL CLONE DEL TEMPLATE DEI BRANI DELL'ALBUM SELEZIONATO CHE CLOENRO TANTE VOLTE QUANTE SONO LE TRACCE DELL'ALBUM
                   let albumPageBrano = generaClone("#template-BranoAlbum");
-  
+
                   // SELEZIONO GLI ELMENTI DEL CLONE
                   let titleAlbumTrack =
                     albumPageBrano.querySelector(".titleAlbumTrack");
@@ -1299,7 +1347,7 @@ homeIcon.addEventListener("click", function () {
                   durationAlbumTrack.innerHTML = convertiSecondiConPuntini(
                     track.duration
                   );
-  
+
                   // FACCIO L'APPEND DEL ELMENTI DEL CLONE
                   targetAlbumPageBrano.append(albumPageBrano);
                 });
@@ -1315,27 +1363,27 @@ homeIcon.addEventListener("click", function () {
         ShowMoreP.innerHTML = "Visualizza Tutto";
         for (let i = 0; i < 5 && i < brani.data.length; i++) {
           const brano = brani.data[i];
-  
+
           let colBrano = generaClone("#template-CioCheTiPiace");
-  
+
           let { imgCard, titleCard } = selezioneElementiClone(colBrano);
-  
+
           let artistCard = colBrano.querySelector("#artistCard");
-  
+
           if (brano.title == brano.album.title) {
             imgCard.src = brano.artist.picture_medium;
           } else {
             imgCard.src = brano.album.cover_medium;
           }
-  
+
           titleCard.innerHTML = brano.title;
-  
+
           artistCard.innerHTML = artisti(brano.title, brano.artist.name);
-  
+
           let cardBrano = colBrano.querySelector(".cardBrano");
-  
+
           cardBrano.addEventListener("click", function () {
-            playerChange(brano)
+            playerChange(brano);
             if (brano.title == brano.album.title) {
               // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
               let id = brano.artist.id;
@@ -1347,10 +1395,10 @@ homeIcon.addEventListener("click", function () {
                 let targetBranoPopolare = artistPage.querySelector(
                   "#target-branoPopolare"
                 );
-  
+
                 artistName.innerHTML = artista.name;
                 fanNumber.innerHTML = artista.nb_fan + " fan";
-  
+
                 fetch(
                   `https://striveschool-api.herokuapp.com/api/deezer/artist/${id}/top?limit=50`
                 )
@@ -1358,17 +1406,20 @@ homeIcon.addEventListener("click", function () {
                   .then((tracks) => {
                     tracks.data.forEach((track, indice) => {
                       // GENERO IL CLONE DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
-                      let branoPopolare = generaClone("#template-branoPopolare");
+                      let branoPopolare = generaClone(
+                        "#template-branoPopolare"
+                      );
                       // SELEZIONO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                       let indiceDiv = branoPopolare.querySelector(".indice");
-                      let titleTrack = branoPopolare.querySelector(".titleTrack");
+                      let titleTrack =
+                        branoPopolare.querySelector(".titleTrack");
                       let rankTrack = branoPopolare.querySelector(".rankTrack");
                       let trackDuration =
-                        branoPopolare.querySelector(".tarckDuration");
+                        branoPopolare.querySelector(".trackDuration");
                       let trackImgBranoPopolare = branoPopolare.querySelector(
                         ".trackImgBranoPopolare"
                       );
-  
+
                       // MODIFICO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                       indiceDiv.innerHTML = indice + 1;
                       titleTrack.innerHTML = track.title_short;
@@ -1417,7 +1468,7 @@ homeIcon.addEventListener("click", function () {
                 }
                 // INSERISCO IL TEMPLATE DEL CLONE DELLA PAGINA ALBUM
                 targetHome.append(albumPage);
-  
+
                 let targetAlbumPageBrano = document.querySelector(
                   "#target-templateBranoAlbum"
                 );
@@ -1425,7 +1476,7 @@ homeIcon.addEventListener("click", function () {
                   // SELEZIONO IL TARGET DOVE FARO L'APPEND DEL CLONE
                   // GENERO IL CLONE DEL TEMPLATE DEI BRANI DELL'ALBUM SELEZIONATO CHE CLOENRO TANTE VOLTE QUANTE SONO LE TRACCE DELL'ALBUM
                   let albumPageBrano = generaClone("#template-BranoAlbum");
-  
+
                   // SELEZIONO GLI ELMENTI DEL CLONE
                   let titleAlbumTrack =
                     albumPageBrano.querySelector(".titleAlbumTrack");
@@ -1447,7 +1498,7 @@ homeIcon.addEventListener("click", function () {
                   durationAlbumTrack.innerHTML = convertiSecondiConPuntini(
                     track.duration
                   );
-  
+
                   // FACCIO L'APPEND DEL ELMENTI DEL CLONE
                   targetAlbumPageBrano.append(albumPageBrano);
                 });
@@ -1459,7 +1510,7 @@ homeIcon.addEventListener("click", function () {
         }
       }
     }
-  
+
     // INIZIO PRIMO LABUM
     let type = home.querySelector("#type");
     type.innerHTML = controlloBranoAlbum(
@@ -1468,35 +1519,35 @@ homeIcon.addEventListener("click", function () {
     );
     let title = home.querySelector(".album-title");
     title.innerHTML = primoBrano.title;
-  
+
     let img = home.querySelector("#copertina");
     if (primoBrano.title == primoBrano.album.title) {
       img.src = primoBrano.artist.picture_medium;
     } else {
       img.src = primoBrano.album.cover_medium;
     }
-  
+
     let artistP = home.querySelector("#artist");
     artistP.innerHTML = artisti(primoBrano.title, primoBrano.artist.name);
-  
+
     let claimP = home.querySelector("#claim");
     claimP.innerHTML =
       "Ascolta il nuovo " +
       controlloBranoAlbum(primoBrano.title, primoBrano.album.title) +
       " di " +
       artisti(primoBrano.title, primoBrano.artist.name);
-  
+
     // FINE CARD
-  
+
     // INIZIO PARTE SINISTRA
     let targetBrani = document.querySelector("#left-col");
     brani.data.forEach((brano) => {
       let p = document.createElement("p");
       p.innerHTML = brano.title;
-  
+
       // ADD EVENT LISTENER CON SELEZIONE DI CARDBRANO DA RENDERE EXPORT IN REALTA QUESTO COMMENTO TI SERVE SOLO PER TROVARE ANCHE QUESTO ADD EVENT LISTENER CHE HO MESSO SUL P NELLA LEFT COL MA FUNZIONA SU UN P NON SU CARD BRANO
       p.addEventListener("click", function () {
-        playerChange(brano)
+        playerChange(brano);
         if (brano.title == brano.album.title) {
           // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
           let id = brano.artist.id;
@@ -1504,14 +1555,16 @@ homeIcon.addEventListener("click", function () {
             targetHome.innerHTML = "";
             let artistPage = generaClone("#template-artistPage");
             let artistName = artistPage.querySelector("#artistName");
+            let coverArtist = artistPage.querySelector(".coverArtist");
             let fanNumber = artistPage.querySelector("#fanNumber");
             let targetBranoPopolare = artistPage.querySelector(
               "#target-branoPopolare"
             );
-  
+
             artistName.innerHTML = artista.name;
+            coverArtist.style.backgroundImage = `url(${brano.artist.picture_xl}`;
             fanNumber.innerHTML = artista.nb_fan + " fan";
-  
+
             fetch(
               `https://striveschool-api.herokuapp.com/api/deezer/artist/${id}/top?limit=50`
             )
@@ -1525,11 +1578,11 @@ homeIcon.addEventListener("click", function () {
                   let titleTrack = branoPopolare.querySelector(".titleTrack");
                   let rankTrack = branoPopolare.querySelector(".rankTrack");
                   let trackDuration =
-                    branoPopolare.querySelector(".tarckDuration");
+                    branoPopolare.querySelector(".trackDuration");
                   let trackImgBranoPopolare = branoPopolare.querySelector(
                     ".trackImgBranoPopolare"
                   );
-  
+
                   // MODIFICO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                   indiceDiv.innerHTML = indice + 1;
                   titleTrack.innerHTML = track.title_short;
@@ -1537,7 +1590,8 @@ homeIcon.addEventListener("click", function () {
                   trackDuration.innerHTML = convertiSecondiConPuntini(
                     track.duration
                   );
-                  trackImgBranoPopolare.src = track.contributors[0].picture_small;
+                  trackImgBranoPopolare.src =
+                    track.contributors[0].picture_small;
                   // INSERISCO I TEMPLATE CLOANTI ONGI VOLTA NEL LORO ATRGET OVVERO UN DIV NEL TEMPLATE ARTIST
                   targetBranoPopolare.append(branoPopolare);
                 });
@@ -1576,7 +1630,7 @@ homeIcon.addEventListener("click", function () {
             }
             // INSERISCO IL TEMPLATE DEL CLONE DELLA PAGINA ALBUM
             targetHome.append(albumPage);
-  
+
             let targetAlbumPageBrano = document.querySelector(
               "#target-templateBranoAlbum"
             );
@@ -1584,7 +1638,7 @@ homeIcon.addEventListener("click", function () {
               // SELEZIONO IL TARGET DOVE FARO L'APPEND DEL CLONE
               // GENERO IL CLONE DEL TEMPLATE DEI BRANI DELL'ALBUM SELEZIONATO CHE CLOENRO TANTE VOLTE QUANTE SONO LE TRACCE DELL'ALBUM
               let albumPageBrano = generaClone("#template-BranoAlbum");
-  
+
               // SELEZIONO GLI ELMENTI DEL CLONE
               let titleAlbumTrack =
                 albumPageBrano.querySelector(".titleAlbumTrack");
@@ -1606,7 +1660,7 @@ homeIcon.addEventListener("click", function () {
               durationAlbumTrack.innerHTML = convertiSecondiConPuntini(
                 track.duration
               );
-  
+
               // FACCIO L'APPEND DEL ELMENTI DEL CLONE
               targetAlbumPageBrano.append(albumPageBrano);
             });
@@ -1615,26 +1669,26 @@ homeIcon.addEventListener("click", function () {
       });
       targetBrani.append(p);
     });
-  
+
     // INIZIAMO LA PARTE DEL PLAYER
     let playerImg = document.querySelector("#playerImg");
     let playerArtist = document.querySelector(".playerArtist");
     let playerTitle = document.querySelector("#playerTitle");
-    playerChange(primoBrano)
-    
+    playerChange(primoBrano);
+
     function playerChange(brano) {
       if (brano.title == brano.album.title) {
         playerImg.src = brano.artist.picture_small;
       } else {
         playerImg.src = brano.album.cover_small;
       }
-    
+
       playerTitle.innerHTML = brano.title;
-    
+
       playerArtist.innerHTML = brano.artist.name;
-    
-      let audio = document.querySelector("#song")
-      audio.src = brano.preview
+
+      let audio = document.querySelector("#song");
+      audio.src = brano.preview;
     }
     targetHome.append(home);
   });
@@ -1644,7 +1698,6 @@ let cerca = document.querySelector("#cerca");
 let inputCerca = document.querySelector("#inputCerca");
 
 cerca.addEventListener("click", function () {
-  
   inputCerca.classList.toggle("displayNone");
 });
 
@@ -1655,10 +1708,9 @@ async function callSearch() {
 
   if (valoreRicerca) {
     getCall(valoreRicerca).then((brani) => {
-      
       // CONTENUTO GENERATO CON LA RICERCA
       targetHome.innerHTML = "";
-      
+
       let h3 = document.createElement("h3");
       h3.innerHTML = "Risultati più rilevanti";
       h3.classList.add("mt-3", "ms-4", "fw-bold");
@@ -1671,13 +1723,13 @@ async function callSearch() {
         } else {
           playerImg.src = brano.album.cover_small;
         }
-      
+
         playerTitle.innerHTML = brano.title;
-      
+
         playerArtist.innerHTML = brano.artist.name;
-      
-        let audio = document.querySelector("#song")
-        audio.src = brano.preview
+
+        let audio = document.querySelector("#song");
+        audio.src = brano.preview;
       }
       brani.data.forEach((brano) => {
         let colScegliBrano = generaClone("#template-CioCheTiPiace");
@@ -1693,16 +1745,17 @@ async function callSearch() {
             // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
             let id = brano.artist.id;
             getCallArtistAlbum("artist", brano.artist.id).then((artista) => {
-              playerChange(brano)
               targetHome.innerHTML = "";
               let artistPage = generaClone("#template-artistPage");
               let artistName = artistPage.querySelector("#artistName");
+              let coverArtist = artistPage.querySelector(".coverArtist");
               let fanNumber = artistPage.querySelector("#fanNumber");
               let targetBranoPopolare = artistPage.querySelector(
                 "#target-branoPopolare"
               );
 
               artistName.innerHTML = artista.name;
+              coverArtist.style.backgroundImage = `url(${brano.artist.picture_xl}`;
               fanNumber.innerHTML = artista.nb_fan + " fan";
 
               fetch(
@@ -1718,7 +1771,7 @@ async function callSearch() {
                     let titleTrack = branoPopolare.querySelector(".titleTrack");
                     let rankTrack = branoPopolare.querySelector(".rankTrack");
                     let trackDuration =
-                      branoPopolare.querySelector(".tarckDuration");
+                      branoPopolare.querySelector(".trackDuration");
                     let trackImgBranoPopolare = branoPopolare.querySelector(
                       ".trackImgBranoPopolare"
                     );
@@ -1741,7 +1794,7 @@ async function callSearch() {
           } else {
             // SE IL BRANO è UNA TRACCIA DI UN ALBUM LA FETCH TROVERà IL SUO ALBUM
             getCallArtistAlbum("album", brano.album.id).then((album) => {
-              playerChange(brano)
+              playerChange(brano);
               console.log(album);
               targetHome.innerHTML = "";
               // GENERO IL CLONE DELLA PAGINA ALBUM DA INSERIRE NALL COLONNA CENTRALE
@@ -1994,12 +2047,14 @@ async function callSearch() {
                 targetHome.innerHTML = "";
                 let artistPage = generaClone("#template-artistPage");
                 let artistName = artistPage.querySelector("#artistName");
+                let coverArtist = artistPage.querySelector(".coverArtist");
                 let fanNumber = artistPage.querySelector("#fanNumber");
                 let targetBranoPopolare = artistPage.querySelector(
                   "#target-branoPopolare"
                 );
 
                 artistName.innerHTML = artista.name;
+                coverArtist.style.backgroundImage = `url(${brano.artist.picture_xl}`;
                 fanNumber.innerHTML = artista.nb_fan + " fan";
 
                 fetch(
@@ -2018,7 +2073,7 @@ async function callSearch() {
                         branoPopolare.querySelector(".titleTrack");
                       let rankTrack = branoPopolare.querySelector(".rankTrack");
                       let trackDuration =
-                        branoPopolare.querySelector(".tarckDuration");
+                        branoPopolare.querySelector(".trackDuration");
                       let trackImgBranoPopolare = branoPopolare.querySelector(
                         ".trackImgBranoPopolare"
                       );
@@ -2180,26 +2235,26 @@ progress_bar.onclick = function (e) {
 };
 
 //il volume
-let volume = document.querySelector('#volumeControl')
-volume.addEventListener("input", function() {
+let volume = document.querySelector("#volumeControl");
+volume.addEventListener("input", function () {
   song.volume = this.value;
 });
 //ripeti
-let ripeti = document.querySelector('#ripeti')
-ripeti.addEventListener('click', function(){
-  if(song.loop){
-    song.loop = false
-    this.style.color = ""
-  }else{
-    song.loop = true
-    this.style.color = "green"
+let ripeti = document.querySelector("#ripeti");
+ripeti.addEventListener("click", function () {
+  if (song.loop) {
+    song.loop = false;
+    this.style.color = "";
+  } else {
+    song.loop = true;
+    this.style.color = "green";
   }
-})
+});
 // muto
-let muto = document.querySelector('#muto')
+let muto = document.querySelector("#muto");
 
-let mutato = false
-muto.addEventListener("click", function() {
+let mutato = false;
+muto.addEventListener("click", function () {
   if (mutato) {
     // Se è muto, riattiva il suono e modifica l'icona
     song.volume = 1;
@@ -2215,17 +2270,16 @@ muto.addEventListener("click", function() {
   }
 });
 //avanti e indietro
-let prec = document.querySelector('#prec')
-let next = document.querySelector('#next')
-let indiceCanzone = 0
+let prec = document.querySelector("#prec");
+let next = document.querySelector("#next");
+let indiceCanzone = 0;
 
-let canzoni = []
+let canzoni = [];
 
-console.log(canzoni);
 function playCurrent() {
-  playerArtist.innerHTML = canzoni[indiceCanzone].artist.name
-  playerTitle.innerHTML = canzoni[indiceCanzone].title
-  
+  playerArtist.innerHTML = canzoni[indiceCanzone].artist.name;
+  playerTitle.innerHTML = canzoni[indiceCanzone].title;
+
   if (canzoni[indiceCanzone].title == canzoni[indiceCanzone].album.title) {
     playerImg.src = canzoni[indiceCanzone].artist.picture_small;
   } else {
@@ -2236,13 +2290,13 @@ function playCurrent() {
 }
 
 // Gestione del click sul pulsante "prec"
-prec.addEventListener("click", function() {
+prec.addEventListener("click", function () {
   indiceCanzone = (indiceCanzone - 1 + canzoni.length) % canzoni.length;
   playCurrent();
 });
 
 // Gestione del click sul pulsante "next"
-next.addEventListener("click", function() {
+next.addEventListener("click", function () {
   indiceCanzone = (indiceCanzone + 1) % canzoni.length;
   playCurrent();
 });
