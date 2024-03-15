@@ -952,6 +952,16 @@ getCall(singerCasuale).then((brani) => {
     audio.src = brano.preview;
   }
   targetHome.append(home);
+
+  let playBtn = document.querySelector("#playBtn")
+  playBtn.addEventListener("click", function () {
+    if (audio.paused) {
+      audio.play();
+      let element = document.querySelector(".bi-play-fill");
+      element.classList.remove("bi-play-fill");
+      element.classList.add("bi-pause-fill");
+    }
+  })
 });
 
 // AD OGNI CLICK SULL'ICONA DELLA HOME RIPARTE LA STESSA FETCH CHE STA ALLA RIGA 19
@@ -2524,3 +2534,4 @@ next.addEventListener("click", function () {
   element.classList.remove("bi-play-fill");
   element.classList.add("bi-pause-fill");
 });
+
