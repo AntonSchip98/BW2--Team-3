@@ -16,7 +16,7 @@
       <div class="row flex-column">
         <div id="three-column" class="col-12">
           <div class="row d-flex flex-wrap-reverse flex-lg-nowrap">
-            <div class="col-12 col-lg-2 footer-mobile">
+            <div class="col-12 col-lg-2 footer-mobile position-sticky bottom-0 z-1 ">
               <div class="row flex-column">
                 <div
                   class="col-12 d-flex d-lg-block justify-content-evenly pt-3 pt-lg-0 bg-black text-white fw-bold border-bottom border-secondary"
@@ -203,7 +203,7 @@
           <div class="row align-items-center">
             <div class="col-3">
               <div class="row align-items-center g-2">
-                <div class="col-2">
+                <div class="col-6 col-md-3">
                   <img
                     id="playerImg"
                     src=""
@@ -211,11 +211,11 @@
                     alt="..."
                   />
                 </div>
-                <div class="col-3">
-                  <h5 id="playerTitle" class="text-white pt-3"></h5>
-                  <p class="text-white pb-1 playerArtist"></p>
+                <div class="col-6 col-lg-4 d-none d-md-block">
+                  <p id="playerTitle" class="text-white fw-bold pt-3 mb-0 text-truncate"></p>
+                  <p class="text-white pb-1 playerArtist text-truncate"></p>
                 </div>
-                <div class="col-2"><i class="bi bi-heart"></i></div>
+                <div class="col-3"><i class="bi bi-heart"></i></div>
               </div>
             </div>
             <!-- MEDIAPLAYER END -->
@@ -253,14 +253,14 @@
             </div>
             <div class="col-3">
               <div class="row justify-content-end">
-                <i class="col-1 bi bi-mic text-end"></i>
-                <i class="col-1 bi bi-view-list text-end"></i>
-                <i class="col-1 bi bi-music-player text-end"></i>
-                <i class="col-1 bi bi-volume-up text-end" id="muto"></i>
+                <i class="col-1 d-none d-md-block bi bi-mic text-end"></i>
+                <i class="col-1 d-none d-md-block bi bi-view-list text-end"></i>
+                <i class="col-1 d-none d-md-block bi bi-music-player text-end"></i>
+                <i class="col-4 col-md-1 bi bi-volume-up text-end" id="muto"></i>
                 <input
                   type="range"
                   id="volumeControl"
-                  class="col-2 me-3 p-0"
+                  class="col-6 col-md-2 me-3 p-0"
                   min="0"
                   max="1"
                   step="0.01"
@@ -277,10 +277,10 @@
     <template id="template-buonasera">
       <div class="col-6 col-lg-6 col-xl-4 cardBrano">
         <div class="row g-0 align-items-center text-white mb-3">
-          <div class="col-6 col-sm-5 col-md-4 col-lg-5 col-xl-5 g-1">
+          <div class="col-5 col-sm-4 g-1">
             <img id="imgCard" src="" class="img-size" alt="..." />
           </div>
-          <div class="col-6 col-lg-7 col-xl-7 g-1">
+          <div class="col-7 col-sm-8 g-1">
             <div class="card-body">
               <h5 id="titleCard" class="card-title fw-bold text-truncate"></h5>
             </div>
@@ -341,7 +341,7 @@
         </div>
         <!-- INIZIO TABELLA* -->
         <div class="row">
-          <div class="col-7">
+          <div class="col-12 col-md-8">
             <div class="container-fluid mt-3 fw-bold">
               <div class="d-flex align-items-center">
                 <div class="col-4 row mb-3">
@@ -353,14 +353,14 @@
             <div id="target-branoPopolare" class="container-fluid"></div>
             <p class="text-secondary fw-bold mt-4 pointer">VISUALIZZA ALTRO</p>
           </div>
-          <div class="col-5">
+          <div class="col-4 d-none d-md-block">
             <div class="pt-3">
               <p class="fw-bold mt-2 fs-4">Brani che ti piacciono</p>
             </div>
             <div class="right-card row mt-4">
-              <div class="col-2 position-relative">
+              <div class="col-4 col-lg-2 position-relative">
                 <img
-                  class="rounded-circle paragrafoHover"
+                  class="rounded-circle paragrafoHover "
                   src="./assets/imgs/main/image-1.jpg"
                   width="80px"
                   height="80px"
@@ -371,7 +371,7 @@
                 ></i>
               </div>
               <div
-                class="col-10 flex-column p-0 ps-3 g-0 d-flex justify-content-center"
+                class="col-6 ms-0 ms-lg-5 flex-column p-0 ps-3 g-0 d-flex justify-content-center"
               >
                 <p class="m-0 fw-bold align-self-start text-white">
                   Hai messo Mi piace a 11 brani
@@ -388,15 +388,15 @@
 
     <template id="template-branoPopolare">
       <div class="d-flex align-items-center pt-3 paragrafoHover branoPopolare">
-        <div class="col-6 row align-items-center">
+        <div class="col-12 col-md-6 row align-items-center">
           <p class="col-1 fw-bold text-secondary fs-5 me-3 mb-0 indice"></p>
-          <img class="col-2 trackImgBranoPopolare" src="" alt="" />
-          <div class="col-6 d-flex align-items-center">
-            <p class="m-0 titleTrack"></p>
+          <img class="col-3 col-sm-2 col-md-3 col-lg-4 col-xxl-3 trackImgBranoPopolare" src="" alt="" />
+          <div class="col-5 d-flex align-items-center">
+            <p class="m-0 fw-bold fs-5 titleTrack text-truncate"></p>
           </div>
         </div>
-        <p class="col-3 text-end text-secondary mb-0 rankTrack"></p>
-        <p class="col-3 text-end text-secondary mb-0 trackDuration"></p>
+        <p class="col-3 d-none d-sm-block text-end text-secondary fw-bold mb-0 rankTrack"></p>
+        <p class="col-3 d-none d-sm-block text-end text-secondary fw-bold mb-0 tarckDuration"></p>
       </div>
     </template>
     <!-- TEMPLATE ALBUM PAGE -->
