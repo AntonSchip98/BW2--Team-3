@@ -953,7 +953,7 @@ getCall(singerCasuale).then((brani) => {
   }
   targetHome.append(home);
 
-  let playBtn = document.querySelector("#playBtn")
+  let playBtn = document.querySelector(".playBtn")
   playBtn.addEventListener("click", function () {
     if (audio.paused) {
       audio.play();
