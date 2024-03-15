@@ -85,10 +85,8 @@ getCall(singerCasuale).then((brani) => {
                     ".trackImgBranoPopolare"
                   );
 
-                  let cardBranoPoplare =
-                    branoPopolare.querySelector(".branoPopolare");
+                  let cardBranoPoplare = branoPopolare.querySelector(".branoPopolare");
 
-                  
                   cardBranoPoplare.addEventListener("click", function () {
                     playerChange(track);
                     playerImg.src = track.contributors[0].picture_small;
@@ -147,6 +145,8 @@ getCall(singerCasuale).then((brani) => {
                 convertiSecondiConScritte(album.duration) +
                 ".";
             }
+            
+
             // INSERISCO IL TEMPLATE DEL CLONE DELLA PAGINA ALBUM
             targetHome.append(albumPage);
 
@@ -154,6 +154,7 @@ getCall(singerCasuale).then((brani) => {
               "#target-templateBranoAlbum"
             );
             album.tracks.data.forEach((track, indice) => {
+              console.log(track);
               // SELEZIONO IL TARGET DOVE FARO L'APPEND DEL CLONE
               // GENERO IL CLONE DEL TEMPLATE DEI BRANI DELL'ALBUM SELEZIONATO CHE CLOENRO TANTE VOLTE QUANTE SONO LE TRACCE DELL'ALBUM
               let albumPageBrano = generaClone("#template-BranoAlbum");
@@ -178,6 +179,20 @@ getCall(singerCasuale).then((brani) => {
               durationAlbumTrack.innerHTML = convertiSecondiConPuntini(
                 track.duration
               );
+
+              let cardBranoPoplare = albumPageBrano.querySelector(".branoPopolare");
+
+                  cardBranoPoplare.addEventListener("click", function () {
+                    playerChange(track);
+                    if (audio.paused) {
+                      audio.play();
+                      let element = document.querySelector(".bi-play-fill");
+                      element.classList.remove("bi-play-fill");
+                      element.classList.add("bi-pause-fill");
+                    }
+                  });
+
+                  playPause.addEventListener("click", toggleSongPlayState);
 
               // FACCIO L'APPEND DEL ELMENTI DEL CLONE
               targetAlbumPageBrano.append(albumPageBrano);
