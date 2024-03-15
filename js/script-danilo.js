@@ -771,7 +771,9 @@ getCall(singerCasuale).then((brani) => {
 
     // ADD EVENT LISTENER CON SELEZIONE DI CARDBRANO DA RENDERE EXPORT IN REALTA QUESTO COMMENTO TI SERVE SOLO PER TROVARE ANCHE QUESTO ADD EVENT LISTENER CHE HO MESSO SUL P NELLA LEFT COL MA FUNZIONA SU UN P NON SU CARD BRANO
     p.addEventListener("click", function () {
+      canzoni = [];
       playerChange(brano);
+
       if (brano.title == brano.album.title) {
         // SE IL BRANO è UN SINGOLO LA FETCH TROVERà IL SUO ARTISTA
         let id = brano.artist.id;
@@ -795,6 +797,7 @@ getCall(singerCasuale).then((brani) => {
             .then((response) => response.json())
             .then((tracks) => {
               tracks.data.forEach((track, indice) => {
+                canzoni.push(track)
                 // GENERO IL CLONE DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
                 let branoPopolare = generaClone("#template-branoPopolare");
                 // SELEZIONO GLI ELEMENTI DAL TEMPLATE CHE CLONERO TANTE VOLTE QUANTI SONO I BRANI POPOLARI
@@ -814,10 +817,29 @@ getCall(singerCasuale).then((brani) => {
                 trackDuration.innerHTML = convertiSecondiConPuntini(
                   track.duration
                 );
-                trackImgBranoPopolare.src = track.contributors[0].picture_small;
+                trackImgBranoPopolare.src =
+                  track.contributors[0].picture_small;
+
+                  let cardBranoPoplare =
+                  branoPopolare.querySelector(".branoPopolare");
+                cardBranoPoplare.addEventListener("click", function () {
+                  playerImg.src = track.contributors[0].picture_small;
+                  if (audio.paused) {
+                    audio.play();
+                    let element = document.querySelector(".bi-play-fill");
+                    element.classList.remove("bi-play-fill");
+                    element.classList.add("bi-pause-fill");
+                  }
+                });
+
+                playPause.addEventListener("click", toggleSongPlayState);
                 // INSERISCO I TEMPLATE CLOANTI ONGI VOLTA NEL LORO ATRGET OVVERO UN DIV NEL TEMPLATE ARTIST
                 targetBranoPopolare.append(branoPopolare);
               });
+              console.log(canzoni);
+              playerChange(canzoni[indiceCanzone]);
+              playerImg.src =
+                canzoni[indiceCanzone].contributors[0].picture_small;
             });
           targetHome.append(artistPage);
         });
@@ -858,6 +880,7 @@ getCall(singerCasuale).then((brani) => {
             "#target-templateBranoAlbum"
           );
           album.tracks.data.forEach((track, indice) => {
+            canzoni.push(track);
             // SELEZIONO IL TARGET DOVE FARO L'APPEND DEL CLONE
             // GENERO IL CLONE DEL TEMPLATE DEI BRANI DELL'ALBUM SELEZIONATO CHE CLOENRO TANTE VOLTE QUANTE SONO LE TRACCE DELL'ALBUM
             let albumPageBrano = generaClone("#template-BranoAlbum");
@@ -884,9 +907,28 @@ getCall(singerCasuale).then((brani) => {
               track.duration
             );
 
+            let cardBranoPoplare =
+              albumPageBrano.querySelector(".branoPopolare");
+
+            cardBranoPoplare.addEventListener("click", function () {
+              playerChange(track);
+              if (audio.paused) {
+                audio.play();
+                let element = document.querySelector(".bi-play-fill");
+                element.classList.remove("bi-play-fill");
+                element.classList.add("bi-pause-fill");
+              }
+            });
+
+            playPause.addEventListener("click", toggleSongPlayState);
+
             // FACCIO L'APPEND DEL ELMENTI DEL CLONE
             targetAlbumPageBrano.append(albumPageBrano);
           });
+          console.log(canzoni);
+              playerChange(canzoni[indiceCanzone]);
+              playerImg.src =
+                canzoni[indiceCanzone].contributors[0].picture_small;
         });
       }
     });
